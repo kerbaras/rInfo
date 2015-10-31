@@ -1,16 +1,11 @@
 package unlp.info.rInfo;
 
-import java.awt.geom.Point2D;
-
 public abstract class Robot extends unlp.info.rInfo.gui.Robot implements Runnable {
 	public static final int	NORTE 	= 0,
 								OESTE 	= 1,
 								ESTE 	= 2,
 								SUR 	= 3;
 	
-	private Point2D pos;
-	private int color;
-	private Bolsa bolsa;
 	private int sentido;
 	
 	public Robot(String nombre) {

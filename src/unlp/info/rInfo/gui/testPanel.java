@@ -3,15 +3,8 @@ package unlp.info.rInfo.gui;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
-import java.awt.CardLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import java.awt.BorderLayout;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 
+@SuppressWarnings("serial")
 public class testPanel extends JPanel {
 
 	/**

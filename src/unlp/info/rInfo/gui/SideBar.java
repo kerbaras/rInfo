@@ -11,7 +11,7 @@ public class SideBar extends JPanel {
 	private City city;
 	
 	public SideBar(City city){
-		this.city = city;
+		this.setCity(city);
 		setLayout(null);
 		setBackground(new Color(0xFF0000));
 		
@@ -32,5 +32,13 @@ public class SideBar extends JPanel {
 			i++;
 		}
 		
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
 	}
 }

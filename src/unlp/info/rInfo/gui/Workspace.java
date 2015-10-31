@@ -1,15 +1,15 @@
 package unlp.info.rInfo.gui;
 
-import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 
 @SuppressWarnings("serial")
@@ -19,14 +19,15 @@ public class Workspace extends JFrame{
 	private SideBar sidebar;
 	private City city;
 	private JMenuBar menuBar;
+	private JScrollPane scrollPane;
 	
-	public Workspace(Robot[] robots){
+	public Workspace(Robot[] robots, Area[] areas){
 		super("Workspace");
-		this.setSize(800, 700);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		city = new City();
-		city.setRobots(robots);
+		setSize(800, 700);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+
+		city = new City(robots, areas);
 		
 		initComponents();
 	}
@@ -62,9 +63,10 @@ public class Workspace extends JFrame{
 
 		sidebar = new SideBar(city);
 		contentPane.add(sidebar, BorderLayout.WEST);
-		sidebar.getSize().width = 200;
-		
-		contentPane.add(city, BorderLayout.CENTER);
+		sidebar.setBounds(0, 0, 200, 100);
+		scrollPane = new JScrollPane();
+		scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
 		return contentPane;
 	}
