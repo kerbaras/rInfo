@@ -6,11 +6,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import javax.swing.JPanel;
-
 
 @SuppressWarnings("serial")
-public class City extends JPanel{
+public class City extends Canvas{
 	
 	static int ANCHO 	= 100,
 				ALTO	= 100,
@@ -24,7 +22,6 @@ public class City extends JPanel{
 		this.robots = robots;
 		this.areas = areas;
 		Dimension dimension = new Dimension(ANCHO * SCALE, ALTO * SCALE);
-		setSize(dimension);
 		setPreferredSize(dimension);
 		setMinimumSize(dimension);
 		setMaximumSize(dimension);

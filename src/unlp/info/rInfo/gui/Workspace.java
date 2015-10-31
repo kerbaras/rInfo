@@ -12,6 +12,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.border.EmptyBorder;
 
+import unlp.info.rInfo.Programa;
+
 @SuppressWarnings("serial")
 public class Workspace extends JFrame{
 
@@ -21,13 +23,13 @@ public class Workspace extends JFrame{
 	private JMenuBar menuBar;
 	private JScrollPane scrollPane;
 	
-	public Workspace(Robot[] robots, Area[] areas){
+	public Workspace(Programa programa){
 		super("Workspace");
 		setSize(800, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 
-		city = new City(robots, areas);
+		city = new City(programa.getRobots(), programa.getAreas());
 		
 		initComponents();
 	}
