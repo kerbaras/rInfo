@@ -23,6 +23,7 @@ public class Workspace extends JFrame{
 	public Workspace(Robot[] robots){
 		super("Workspace");
 		this.setSize(800, 700);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		city = new City();
 		city.setRobots(robots);

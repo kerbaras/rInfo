@@ -56,5 +56,8 @@ public class testForm extends JFrame {
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setLeftComponent(new testPanel());
 		getContentPane().add(splitPane);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		splitPane.setRightComponent(scrollPane);
 	}
 }
