@@ -5,15 +5,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import unlp.info.rInfo.Programa;
+
 @SuppressWarnings("serial")
 public class SideBar extends JPanel {
 
-	private City city;
+	private Programa program;
 	
-	public SideBar(City city){
-		this.setCity(city);
+	
+	public SideBar(Programa program){
+		this.program = program;
 		setLayout(null);
-		setBackground(new Color(0xFF0000));
 		
 		JLabel lblMinimapa = new JLabel("Minimapa");
 		
@@ -24,7 +26,7 @@ public class SideBar extends JPanel {
 		add(minimapa);
 		
 		int i = 0;
-		for (Robot robot : city.getRobots()) {
+		for (Robot robot : program.getRobots()) {
 			JPanel aux = new JPanel();
 			aux.setBorder(new TitledBorder(null, robot.getNombre(), TitledBorder.LEFT, TitledBorder.TOP, null, null));
 			aux.setBounds(12, 143 + (i* 120), 200 - 12, 100);
@@ -32,13 +34,5 @@ public class SideBar extends JPanel {
 			i++;
 		}
 		
-	}
-
-	public City getCity() {
-		return city;
-	}
-
-	public void setCity(City city) {
-		this.city = city;
 	}
 }

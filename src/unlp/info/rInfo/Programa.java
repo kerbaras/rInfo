@@ -13,22 +13,18 @@ public class Programa extends Thread {
 	public static void main(String[] args) {
 		
 		Robot[] robots = new Robot[2];
-		Area[] areas = new Area[3];
+		Area[] areas = new Area[1];
 		
 		robots[0] = new Robot1("Robot1");
 		robots[1] = new Robot1("Robot2");
 
-		areas[0] = new AreaC(0,0, 6,8);
-		areas[1] = new AreaP(7,0 , 12,8);
-		areas[2] = new AreaPC(0,9 , 12,13);
+		areas[0] = new AreaP(0,0, 99,99);
 		
 
 		Programa program = new Programa();
-		try{
-			program.run();
-		}catch(RuntimeException e){
-			System.out.println(e.getMessage());
-		}
+		program.setRobots(robots);
+		program.setAreas(areas);
+		program.run();
 		
 	}
 	
@@ -38,9 +34,13 @@ public class Programa extends Thread {
 	}
 	
 	@Override
-	public void run() throws RuntimeException{
+	public void run(){
 		Workspace workspace = new Workspace(this);
 		workspace.setVisible(true);
+		
+		for (Robot robot : robots) {
+			(new Thread(robot)).start();
+		}
 	}
 	
 	

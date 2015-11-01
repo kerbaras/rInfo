@@ -4,15 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JSplitPane;
-import javax.swing.JScrollPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.GridLayout;
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
-@SuppressWarnings("serial")
 public class testForm extends JFrame {
+
+	private JPanel contentPane;
 
 	/**
 	 * Launch the application.
@@ -35,22 +37,16 @@ public class testForm extends JFrame {
 	 */
 	public testForm() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 729, 519);
-		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		JMenu mnFile = new JMenu("File");
-		menuBar.add(mnFile);
-		
-		JMenuItem mntmClose = new JMenuItem("Close");
-		mnFile.add(mntmClose);
-		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
-		getContentPane().setLayout(new BorderLayout(0, 0));
+		setBounds(100, 100, 505, 484);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setLeftComponent(new testPanel());
-		getContentPane().add(splitPane);
+		splitPane.setEnabled(false);
+		splitPane.setBounds(5, 5, 495, 437);
+		contentPane.add(splitPane);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		splitPane.setRightComponent(scrollPane);

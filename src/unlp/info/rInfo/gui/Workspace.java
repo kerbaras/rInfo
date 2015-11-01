@@ -17,19 +17,23 @@ import unlp.info.rInfo.Programa;
 @SuppressWarnings("serial")
 public class Workspace extends JFrame{
 
+	private Programa program;
+	
 	private JPanel contentPane;
 	private SideBar sidebar;
 	private City city;
 	private JMenuBar menuBar;
 	private JScrollPane scrollPane;
 	
-	public Workspace(Programa programa){
+	public Workspace(Programa program){
 		super("Workspace");
 		setSize(800, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		
+		this.program = program;
 
-		city = new City(programa.getRobots(), programa.getAreas());
+		city = new City(program);
 		
 		initComponents();
 	}
@@ -63,10 +67,10 @@ public class Workspace extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 
-		sidebar = new SideBar(city);
+		sidebar = new SideBar(program);
+		sidebar.getSize().width = 200;
 		contentPane.add(sidebar, BorderLayout.WEST);
-		sidebar.setBounds(0, 0, 200, 100);
-		scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane(city);
 		scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		

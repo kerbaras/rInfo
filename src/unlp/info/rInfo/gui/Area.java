@@ -38,7 +38,9 @@ public abstract class Area {
 		g.setColor(color.brighter().brighter().brighter().brighter());
 		g.fillRect(from.x * 2 * scale + 5, from.y * 2 * scale + 5, (to.x - from.x) * 2 * scale + 20, (to.y - from.y) * 2 * scale + 20);
 		g.setColor(color.darker());
+		g.drawRect(from.x * 2 * scale + 6, from.y * 2 * scale + 6, (to.x - from.x) * 2 * scale + 20, (to.y - from.y) * 2 * scale + 20);
 		g.drawRect(from.x * 2 * scale + 5, from.y * 2 * scale + 5, (to.x - from.x) * 2 * scale + 20, (to.y - from.y) * 2 * scale + 20);
+		g.drawRect(from.x * 2 * scale + 4, from.y * 2 * scale + 4, (to.x - from.x) * 2 * scale + 20, (to.y - from.y) * 2 * scale + 20);
 		g.setColor(bc);
 	}
 

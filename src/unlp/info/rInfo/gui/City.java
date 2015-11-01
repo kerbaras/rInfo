@@ -1,27 +1,26 @@
 package unlp.info.rInfo.gui;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import javax.swing.JPanel;
+import unlp.info.rInfo.Programa;
 
 
 @SuppressWarnings("serial")
-public class City extends Canvas{
+public class City extends JPanel{
 	
 	static int ANCHO 	= 100,
 				ALTO	= 100,
 				SCALE 	= 10;
 
-	private Robot[] robots;
-	private Area[] areas;
+	private Programa program;
 	
 	
-	public City(Robot[] robots, Area[] areas){
-		this.robots = robots;
-		this.areas = areas;
-		Dimension dimension = new Dimension(ANCHO * SCALE, ALTO * SCALE);
+	public City(Programa program){
+		this.program = program;
+		Dimension dimension = new Dimension(2010, 2010);
 		setPreferredSize(dimension);
 		setMinimumSize(dimension);
 		setMaximumSize(dimension);
@@ -37,7 +36,7 @@ public class City extends Canvas{
 	}
 	
 	public void drawAreas(Graphics g){
-		for (Area area : areas) {
+		for (Area area : program.getAreas()) {
 			area.draw(g, SCALE);
 		}
 	}
@@ -62,16 +61,8 @@ public class City extends Canvas{
 		}
 	}
 	
-	public void setRobots(Robot[] robots){
-		this.robots = robots;
-	}
-	
-	public Robot[] getRobots(){
-		return robots;
-	}
-	
 	public Area getArea(Point p){
-		for (Area area : areas) {
+		for (Area area : program.getAreas()) {
 			if(area.hasPoint(p)){
 				return area;
 			}
@@ -82,5 +73,7 @@ public class City extends Canvas{
 	public Area getArea(int x, int y){
 		return getArea(new Point(x,y));
 	}
+	
+	
 
 }
