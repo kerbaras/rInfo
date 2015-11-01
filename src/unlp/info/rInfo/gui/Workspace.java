@@ -1,15 +1,9 @@
 package unlp.info.rInfo.gui;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import unlp.info.rInfo.Programa;
@@ -28,6 +22,7 @@ public class Workspace extends JFrame{
 	public Workspace(Programa program){
 		super("Workspace");
 		setSize(800, 700);
+        setMinimumSize(new Dimension(350, 200));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
@@ -50,11 +45,8 @@ public class Workspace extends JFrame{
 		mnFile.addSeparator();
 		JMenuItem btnClose = new JMenuItem("Close");
 		btnClose.addActionListener(new ActionListener(){
-			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				me.dispose();
-			}
+			public void actionPerformed(ActionEvent e) { me.dispose(); }
 		});
 		mnFile.add(btnClose);
 		menuBar.add(mnFile);
@@ -67,13 +59,22 @@ public class Workspace extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 
+        JSplitPane splitPane = new JSplitPane();
+
 		sidebar = new SideBar(program);
-		sidebar.getSize().width = 200;
-		contentPane.add(sidebar, BorderLayout.WEST);
+        splitPane.setLeftComponent(sidebar);
+        splitPane.setDividerLocation(210);
+        splitPane.setEnabled(false);
+
 		scrollPane = new JScrollPane(city);
 		scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-		contentPane.add(scrollPane, BorderLayout.CENTER);
-		
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout(0, 0));
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        splitPane.setRightComponent(mainPanel);
+
+        contentPane.add(splitPane);
+
 		return contentPane;
 	}
 }
