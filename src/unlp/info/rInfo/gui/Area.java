@@ -5,10 +5,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public abstract class Area {
 	protected Color color;
-	protected Robot[] robots;
+	protected ArrayList<Robot> robots = new ArrayList<Robot>();
 	protected Point from, to;
 
 	public Area(Color color) {
@@ -36,11 +37,11 @@ public abstract class Area {
 	public void draw(Graphics g, int scale) {
 		Color bc = g.getColor();
 		g.setColor(color.brighter().brighter().brighter().brighter());
-		g.fillRect(from.x * 2 * scale + 5, from.y * 2 * scale + 5, (to.x - from.x) * 2 * scale + 20, (to.y - from.y) * 2 * scale + 20);
+		g.fillRect(from.x * 2 * scale, from.y * 2 * scale , (to.x - from.x) * 2 * scale + 40, (to.y - from.y) * 2 * scale + 30);
 		g.setColor(color.darker());
-		g.drawRect(from.x * 2 * scale + 6, from.y * 2 * scale + 6, (to.x - from.x) * 2 * scale + 20, (to.y - from.y) * 2 * scale + 20);
-		g.drawRect(from.x * 2 * scale + 5, from.y * 2 * scale + 5, (to.x - from.x) * 2 * scale + 20, (to.y - from.y) * 2 * scale + 20);
-		g.drawRect(from.x * 2 * scale + 4, from.y * 2 * scale + 4, (to.x - from.x) * 2 * scale + 20, (to.y - from.y) * 2 * scale + 20);
+		g.drawRect(from.x * 2 * scale + 1, from.y * 2 * scale + 1, (to.x - from.x) * 2 * scale + 40, (to.y - from.y) * 2 * scale + 30);
+		g.drawRect(from.x * 2 * scale, from.y * 2 * scale , (to.x - from.x) * 2 * scale + 40, (to.y - from.y) * 2 * scale + 30);
+		g.drawRect(from.x * 2 * scale -1, from.y * 2 * scale - 1, (to.x - from.x) * 2 * scale + 40, (to.y - from.y) * 2 * scale + 30);
 		g.setColor(bc);
 	}
 
@@ -52,12 +53,16 @@ public abstract class Area {
 		this.color = color;
 	}
 
-	public Robot[] getRobots() {
+	public ArrayList<Robot> getRobots() {
 		return robots;
 	}
 
-	public void setRobots(Robot[] robots) {
-		this.robots = robots;
+	public void addRobot(Robot robot) {
+		this.robots.add(robot);
+	}
+
+	public void removeRobot(Robot robot) {
+		this.robots.remove(robot);
 	}
 
 	public Point getFrom() {

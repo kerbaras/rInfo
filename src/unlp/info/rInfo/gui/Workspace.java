@@ -18,6 +18,7 @@ public class Workspace extends JFrame{
 	private City city;
 	private JMenuBar menuBar;
 	private JScrollPane scrollPane;
+	private Minimap minimapa;
 	
 	public Workspace(Programa program){
 		super("Workspace");
@@ -61,10 +62,7 @@ public class Workspace extends JFrame{
 
         JSplitPane splitPane = new JSplitPane();
 
-		sidebar = new SideBar(program);
-        splitPane.setLeftComponent(sidebar);
-        splitPane.setDividerLocation(210);
-        splitPane.setEnabled(false);
+
 
 		scrollPane = new JScrollPane(city);
 		scrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
@@ -72,6 +70,13 @@ public class Workspace extends JFrame{
         mainPanel.setLayout(new BorderLayout(0, 0));
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         splitPane.setRightComponent(mainPanel);
+
+		minimapa = new Minimap(scrollPane.getViewport(), city.getMapBuffer());
+
+		sidebar = new SideBar(program, minimapa);
+		splitPane.setLeftComponent(sidebar);
+		splitPane.setDividerLocation(217);
+		splitPane.setEnabled(false);
 
         contentPane.add(splitPane);
 

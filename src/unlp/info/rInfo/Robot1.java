@@ -8,13 +8,20 @@ public class Robot1 extends Robot {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void draw() {
-		// TODO Auto-generated method stub
+		for (int x = 0; x < 10; x++){
+			derecha();
+			for (int i = 0; i < x; i++) {
+				mover();
+			}
+			derecha();
+			mover();
+			mover();
+			derecha();
+			mover();
+			derecha();
+			mover();
+			mover();
+		}
 
 	}
 

@@ -4,33 +4,39 @@ import unlp.info.rInfo.areas.*;
 import unlp.info.rInfo.gui.Area;
 import unlp.info.rInfo.gui.Workspace;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 public class Programa extends Thread {
 
-	private Robot[] robots;
-	private Area[] areas;
+	private ArrayList<Robot> robots = new ArrayList<Robot>();
+	private ArrayList<Area> areas = new ArrayList<Area>();
 	
 	
 	public static void main(String[] args) {
-		
-		Robot[] robots = new Robot[2];
-		Area[] areas = new Area[1];
-		
-		robots[0] = new Robot1("Robot1");
-		robots[1] = new Robot1("Robot2");
 
-		areas[0] = new AreaP(0,0, 99,99);
+		Robot1 r1 = new Robot1("Robot1");
+		r1.setPos(new Point(0, 0));
+		Robot2 r2 = new Robot2("Robot2");
+		r2.setPos(new Point(99, 99));
+		Robot1 r3 = new Robot1("Robot3");
+		r3.setPos(new Point(0, 19));
+		r3.setColor(Color.green);
+
+		AreaC area = new AreaC(0,0, 99,99);
 		
 
 		Programa program = new Programa();
-		program.setRobots(robots);
-		program.setAreas(areas);
+		program.addRobot(r1);
+		program.addRobot(r2);
+		program.addRobot(r3);
+		program.addArea(area);
 		program.run();
 		
 	}
 	
 	public Programa(){
-		this.robots = null;
-		this.areas = null;
+
 	}
 	
 	@Override
@@ -39,26 +45,23 @@ public class Programa extends Thread {
 		workspace.setVisible(true);
 		
 		for (Robot robot : robots) {
-			(new Thread(robot)).start();
+			robot.start();
 		}
 	}
-	
-	
 
-	public Robot[] getRobots() {
+	public ArrayList<Robot> getRobots() {
 		return robots;
 	}
 
-	public void setRobots(Robot[] robots) {
-		this.robots = robots;
+	public void addRobot(Robot robot){
+		robots.add(robot);
 	}
 
-	public Area[] getAreas() {
+	public ArrayList<Area> getAreas() {
 		return areas;
 	}
 
-	public void setAreas(Area[] areas) {
-		this.areas = areas;
+	public void addArea(Area area){
+		areas.add(area);
 	}
-
 }
