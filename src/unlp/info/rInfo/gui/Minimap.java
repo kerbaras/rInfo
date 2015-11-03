@@ -1,14 +1,12 @@
 package unlp.info.rInfo.gui;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-/**
- * Created by matias on 11/2/15.
- */
 public class Minimap extends JPanel{
 
     private Rectangle2D rect;
@@ -20,8 +18,7 @@ public class Minimap extends JPanel{
         setDoubleBuffered(true);
         this.viewport = viewport;
         this.bg = bg;
-        rect = new Rectangle2D.Double(0,0,(int)(viewport.getSize().width / 10), (int)(viewport.getSize().height  / 10));
-
+        rect = new Rectangle2D.Double(0,0,viewport.getSize().width / 10, viewport.getSize().height  / 10);
 
         addMouseMotionListener(new MouseMotionListener() {
             @Override
@@ -31,29 +28,6 @@ public class Minimap extends JPanel{
 
             @Override
             public void mouseMoved(MouseEvent e) {
-
-            }
-        });
-
-        viewport.addComponentListener(new ComponentListener() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                rect.setRect(rect.getX(), rect.getY(), e.getComponent().getWidth() / 10, e.getComponent().getHeight() / 10);
-                repaint();
-            }
-
-            @Override
-            public void componentMoved(ComponentEvent e) {
-
-            }
-
-            @Override
-            public void componentShown(ComponentEvent e) {
-
-            }
-
-            @Override
-            public void componentHidden(ComponentEvent e) {
 
             }
         });
@@ -81,6 +55,17 @@ public class Minimap extends JPanel{
             @Override
             public void mouseExited(MouseEvent e) {
 
+            }
+        });
+
+        viewport.addChangeListener((ChangeEvent e) -> {
+            Point pos = viewport.getViewPosition();
+            Dimension dim = viewport.getSize();
+
+            if (!(new Dimension((int) rect.getWidth(), (int) rect.getHeight()).equals(dim) &&
+                    new Point((int) rect.getX(), (int) rect.getY()).equals(pos))) {
+                rect.setRect(pos.x * 2 / 20, pos.y * 2 / 20, (int) (dim.getWidth() / 10), (int) (dim.getHeight() / 10));
+                repaint();
             }
         });
 
@@ -130,10 +115,6 @@ public class Minimap extends JPanel{
 
         if (y > 200 - h) { y = 200 - h; }
 
-        if (viewport != null) {
-            viewport.setViewPosition(new Point((int) (x * 21 / 2 ), (int) (y * 21 / 2)));
-        }
-        rect.setRect(x, y, w, h);
-        repaint();
+        viewport.setViewPosition(new Point(x * 21 / 2, y * 21 / 2));
     }
 }

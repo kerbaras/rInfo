@@ -8,12 +8,12 @@ import unlp.info.rInfo.events.MoveListener;
 import java.awt.*;
 import java.util.ArrayList;
 
-public abstract class Robot extends Thread {
+public abstract class Robot implements Runnable {
 	public static final int	NORTE 	= 0,
                             ESTE 	= 1,
                             SUR 	= 2,
 							OESTE 	= 3,
-                            FPS     = 15,
+                            FPS     = 1,
                             INTERVAL = 1000/FPS;
 
 	protected String nombre;
@@ -23,6 +23,8 @@ public abstract class Robot extends Thread {
 	protected int sentido = NORTE;
     protected ArrayList<MoveListener> moveListeners = new ArrayList<MoveListener>();
     protected ArrayList<ChangePosListener> changePosListeners = new ArrayList<ChangePosListener>();
+    private Thread thread;
+    private boolean running = false;
 	
 	public Robot(){
 		setColor(new Color(0xFF3232));
@@ -52,7 +54,7 @@ public abstract class Robot extends Thread {
         }
         dispatchMoveListeners(this, pos, posAnt, sentido);
         try{
-            sleep(INTERVAL);
+            thread.sleep(INTERVAL);
         }catch (InterruptedException e){
             e.printStackTrace();
         }
@@ -72,6 +74,15 @@ public abstract class Robot extends Thread {
         }else{
             sentido -= 1;
         }
+    }
+
+    public void boot(){
+        if(running){
+            return;
+        }
+        running = true;
+        thread = new Thread(this);
+        thread.start();
     }
 
 	public String getNombre() {
@@ -112,7 +123,6 @@ public abstract class Robot extends Thread {
 
     public void addMoveListener(MoveListener moveListener){
         moveListeners.add(moveListener);
-        System.out.println("hola");
     }
 
     public ArrayList<MoveListener> getMoveListeners(){
@@ -152,23 +162,32 @@ public abstract class Robot extends Thread {
         g.setColor(color);
         g.fillOval(x, y, 10, 10);
         g.setColor(Color.black);
+        g.drawOval(x, y, 10, 10);
 
         switch (sentido){
             case Robot.NORTE:
-                g.fillOval(x + 2, y + 2, 3, 3);
-                g.fillOval(x + 5, y + 2, 3, 3);
+                g.fillOval(x + 2, y + 1, 3, 3);
+                g.fillOval(x + 6, y + 1, 3, 3);
+                //g.drawLine(x + 5, y, x + 5, y + 5);
+                //g.drawLine(x, y + 5, x + 10, y + 5);
                 break;
             case Robot.SUR:
-                g.fillOval(x + 2, y + 5, 3, 3);
-                g.fillOval(x + 5, y + 5, 3, 3);
+                g.fillOval(x + 2, y + 6, 3, 3);
+                g.fillOval(x + 6, y + 6, 3, 3);
+                //g.drawLine(x + 5, y + 5, x + 5, y + 10);
+                //g.drawLine(x, y + 5, x + 10, y + 5);
                 break;
             case Robot.ESTE:
-                g.fillOval(x + 5, y + 2, 3, 3);
-                g.fillOval(x + 5, y + 5, 3, 3);
+                g.fillOval(x + 6, y + 1, 3, 3);
+                g.fillOval(x + 6, y + 6, 3, 3);
+                //g.drawLine(x + 5, y + 5, x + 10, y + 5);
+                //g.drawLine(x + 5, y, x + 5, y + 10);
                 break;
             case Robot.OESTE:
-                g.fillOval(x + 2, y + 2, 3, 3);
-                g.fillOval(x + 2, y + 5, 3, 3);
+                g.fillOval(x + 1, y + 1, 3, 3);
+                g.fillOval(x + 1, y + 6, 3, 3);
+                //g.drawLine(x, y + 5, x + 5, y + 5);
+                //g.drawLine(x + 5, y, x + 5, y + 10);
                 break;
         }
         g.setColor(bc);

@@ -7,11 +7,12 @@ import unlp.info.rInfo.gui.Workspace;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Programa extends Thread {
+public class Programa implements Runnable {
 
 	private ArrayList<Robot> robots = new ArrayList<Robot>();
 	private ArrayList<Area> areas = new ArrayList<Area>();
-	
+	private Thread thread;
+	private boolean running = false;
 	
 	public static void main(String[] args) {
 
@@ -31,12 +32,21 @@ public class Programa extends Thread {
 		program.addRobot(r2);
 		program.addRobot(r3);
 		program.addArea(area);
-		program.run();
+		program.comenzar();
 		
 	}
 	
 	public Programa(){
 
+	}
+
+	public void comenzar(){
+		if(running){
+			return;
+		}
+		running = true;
+		thread = new Thread(this);
+		thread.start();
 	}
 	
 	@Override
@@ -45,7 +55,7 @@ public class Programa extends Thread {
 		workspace.setVisible(true);
 		
 		for (Robot robot : robots) {
-			robot.start();
+			robot.boot();
 		}
 	}
 

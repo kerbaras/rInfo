@@ -16,17 +16,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="module-library">
-      <library name="jgoodies-forms-1.8.0.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/jgoodies-forms-1.8.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MODULE_DIR$/jgoodies-forms-1.8.0-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="miglayout15-swing.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/miglayout15-swing.jar!/" />
@@ -34,6 +23,17 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$MODULE_DIR$/miglayout-src.zip!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="jgoodies-forms-1.8.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jgoodies-forms-1.8.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/jgoodies-forms-1.8.0-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
