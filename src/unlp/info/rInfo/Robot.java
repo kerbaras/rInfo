@@ -3,9 +3,6 @@ package unlp.info.rInfo;
 import java.awt.Point;
 
 public abstract class Robot extends unlp.info.rInfo.gui.Robot {
-	private boolean mensaje;
-	private String mensaje_data;
-	protected Listener[] listeners;
 	
 	public Robot(String nombre) {
 		super(nombre);
@@ -39,27 +36,14 @@ public abstract class Robot extends unlp.info.rInfo.gui.Robot {
 	}
 	
 	public synchronized void recivirMensaje(Robot robot, String data){
-		mensaje = true;
-		mensaje_data = data;
+
 	}
 	
-	protected String getMensaje(){
-		while(!mensaje){
-			continue;
-		}
-		mensaje = false;
-		return mensaje_data;
+	protected int getMensaje(){
+		return 0;
 	}
 	
-	public synchronized void dispatchMensaje(Robot robot, String id , String data){
-		
-	}
-	
-	public synchronized void dispatchMensaje(Robot robot, String id, int data){
-		
-	}
-	
-	public synchronized void dispatchMensaje(Robot robot, String id, boolean data){
+	public synchronized void dispatchMensaje(Robot robot, String id , Object data){
 		
 	}
 }

@@ -24,7 +24,7 @@ public class SideBar extends JPanel {
 		add(lblMinimapa);
 
 		this.minimapa = minimapa;
-		this.minimapa.setLocation(12, 39);
+		this.minimapa.setLocation(12, 35);
 		add(this.minimapa);
 		
 		int i = 0;

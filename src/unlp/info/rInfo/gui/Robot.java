@@ -13,7 +13,7 @@ public abstract class Robot implements Runnable {
                             ESTE 	= 1,
                             SUR 	= 2,
 							OESTE 	= 3,
-                            FPS     = 1,
+                            FPS     = 20,
                             INTERVAL = 1000/FPS;
 
 	protected String nombre;

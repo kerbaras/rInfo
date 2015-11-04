@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 public class Programa implements Runnable {
 
-	private ArrayList<Robot> robots = new ArrayList<Robot>();
-	private ArrayList<Area> areas = new ArrayList<Area>();
+	private ArrayList<Robot> robots;
+	private ArrayList<Area> areas;
 	private Thread thread;
-	private boolean running = false;
+	private boolean running;
 	
 	public static void main(String[] args) {
 
@@ -37,7 +37,9 @@ public class Programa implements Runnable {
 	}
 	
 	public Programa(){
-
+		running = false;
+		robots = new ArrayList<Robot>();
+		areas = new ArrayList<Area>();
 	}
 
 	public void comenzar(){
