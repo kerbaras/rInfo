@@ -3,20 +3,26 @@ package unlp.info.rInfo;
 import java.awt.Point;
 
 public abstract class Robot extends unlp.info.rInfo.gui.Robot {
-	
+	private Programa programa;
+
 	public Robot(String nombre) {
 		super(nombre);
 	}
 	
-	protected synchronized void bloquearEsquina(Point e){
-		while(true){
-			
+	protected synchronized void bloquearEsquina(Point esquina){
+		try {
+			while (programa.isEsquinaBlocked(esquina)) {
+				wait();
+			}
+			programa.bloquearEsquina(esquina);
+		}catch (InterruptedException e){
+			e.printStackTrace();
 		}
 		
 	}
 
-	protected synchronized void liberarEsquina(Point e){
-		
+	protected synchronized void liberarEsquina(Point esquina){
+		programa.liberarEsquina(esquina);
 	}
 	
 	protected void enviarMensaje(Robot robot, String id , String data){
@@ -35,7 +41,7 @@ public abstract class Robot extends unlp.info.rInfo.gui.Robot {
 		
 	}
 	
-	public synchronized void recivirMensaje(Robot robot, String data){
+	public synchronized void recibirMensaje(Robot robot, String data){
 
 	}
 	

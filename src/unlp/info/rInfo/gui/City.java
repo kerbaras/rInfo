@@ -2,6 +2,9 @@ package unlp.info.rInfo.gui;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Vector;
 import javax.swing.JPanel;
 
 import unlp.info.rInfo.Programa;
@@ -17,7 +20,9 @@ public class City extends JPanel {
 
     private Programa program;
     private BufferedImage mapBuffer;
-
+    private TreeMap<Point, Integer> flores;
+    private TreeMap<Point, Integer> papeles;
+    private TreeMap<Point, Integer> obstaculos;
 
     public City(Programa program) {
         this.program = program;
@@ -26,8 +31,7 @@ public class City extends JPanel {
         setMinimumSize(dimension);
         setMaximumSize(dimension);
         setDoubleBuffered(true);
-
-
+        flores = new TreeMap<Point, Integer>();
         mapBuffer = new BufferedImage(2011, 2011, BufferedImage.TYPE_INT_ARGB);
         drawMap(mapBuffer.getGraphics());
 
@@ -39,7 +43,6 @@ public class City extends JPanel {
             g.drawImage(mapBuffer, 0, 0, this);
             drawRobots(g);
         }
-
     }
 
     public void drawMap(Graphics g) {

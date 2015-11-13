@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
 Main-Class: unlp.info.rInfo.Programa
-
+Private-Package: unlp.info.rInfo.events
+Private-Package: unlp.info.rInfo.gui
