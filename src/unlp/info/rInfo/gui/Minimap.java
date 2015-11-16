@@ -72,6 +72,7 @@ public class Minimap extends JPanel{
     }
 
     public void paint(Graphics g){
+        g.clearRect(0,0,200,200);
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(bg.getScaledInstance(200,200, BufferedImage.SCALE_SMOOTH), 0, 0, null);
         g2.setColor(new Color(0xa3a3a3));

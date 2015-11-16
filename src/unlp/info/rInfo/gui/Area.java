@@ -1,5 +1,6 @@
 package unlp.info.rInfo.gui;
 
+import unlp.info.rInfo.Robot;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;

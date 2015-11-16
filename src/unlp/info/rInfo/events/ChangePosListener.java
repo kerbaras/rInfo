@@ -1,7 +1,7 @@
 package unlp.info.rInfo.events;
 
-import unlp.info.rInfo.gui.Robot;
+import unlp.info.rInfo.gui.GRobot;
 
 public interface ChangePosListener {
-    public void onChangePos(Robot robot, ChangePosEvent event);
+    public void onChangePos(GRobot robot, ChangePosEvent event);
 }

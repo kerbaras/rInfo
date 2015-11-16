@@ -10,11 +10,10 @@ import unlp.info.rInfo.Programa;
 @SuppressWarnings("serial")
 public class SideBar extends JPanel {
 
-	private Programa program;
 	private Minimap minimapa;
+	private int pos;
 	
-	public SideBar(Programa program, Minimap minimapa){
-		this.program = program;
+	public SideBar(Minimap minimapa){
 		setLayout(null);
 		
 		JLabel lblMinimapa = new JLabel("Minimapa:");
@@ -26,15 +25,16 @@ public class SideBar extends JPanel {
 		this.minimapa = minimapa;
 		this.minimapa.setLocation(12, 35);
 		add(this.minimapa);
-		
-		int i = 0;
-		for (Robot robot : program.getRobots()) {
-			JPanel aux = new JPanel();
-			aux.setBorder(new TitledBorder(null, robot.getNombre(), TitledBorder.LEFT, TitledBorder.TOP, null, null));
-			aux.setBounds(12, minimapa.getY() + minimapa.getHeight() + 20  + (i* 120), 200 - 12, 100);
-			add(aux);
-			i++;
-		}
-		
+
+		pos = minimapa.getHeight() + minimapa.getY();
+	}
+
+	public synchronized void registrarRobot(GRobot robot){
+		RobotPane aux = new RobotPane(robot);
+		aux.setBorder(new TitledBorder(null, "Robot " + robot.getId(), TitledBorder.LEFT, TitledBorder.TOP, null, null));
+		add(aux);
+		aux.setLocation(12, pos + 20);
+		pos += 140;
+		// suscribe event handler
 	}
 }

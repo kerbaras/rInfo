@@ -2,11 +2,8 @@ package unlp.info.rInfo.gui;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Map;
 import java.util.TreeMap;
-import java.util.Vector;
 import javax.swing.JPanel;
-
 import unlp.info.rInfo.Programa;
 import unlp.info.rInfo.events.MoveEvent;
 
@@ -18,14 +15,14 @@ public class City extends JPanel {
             ALTO = 100,
             SCALE = 10;
 
-    private Programa program;
     private BufferedImage mapBuffer;
     private TreeMap<Point, Integer> flores;
     private TreeMap<Point, Integer> papeles;
     private TreeMap<Point, Integer> obstaculos;
+    private Workspace workspace;
 
-    public City(Programa program) {
-        this.program = program;
+    public City(Workspace workspace) {
+        this.workspace = workspace;
         Dimension dimension = new Dimension(2011, 2011);
         setPreferredSize(dimension);
         setMinimumSize(dimension);
@@ -34,12 +31,12 @@ public class City extends JPanel {
         flores = new TreeMap<Point, Integer>();
         mapBuffer = new BufferedImage(2011, 2011, BufferedImage.TYPE_INT_ARGB);
         drawMap(mapBuffer.getGraphics());
-
-        setUpRobots();
+        repaint();
     }
 
     public void paint(Graphics g) {
         if(g != null) {
+            g.clearRect(0,0,2011,2011);
             g.drawImage(mapBuffer, 0, 0, this);
             drawRobots(g);
         }
@@ -51,7 +48,7 @@ public class City extends JPanel {
     }
 
     public void drawAreas(Graphics g) {
-        for (Area area : program.getAreas()) {
+        for (Area area : Programa.getAreas()) {
             area.draw(g, SCALE);
         }
     }
@@ -77,7 +74,7 @@ public class City extends JPanel {
     }
 
     public void drawRobots(Graphics g) {
-        for (Robot robot : program.getRobots()){
+        for (GRobot robot : workspace.getRobots()){
             robot.draw(g);
         }
     }
@@ -91,7 +88,7 @@ public class City extends JPanel {
     }
 
     public Area getArea(Point p) {
-        for (Area area : program.getAreas()) {
+        for (Area area : Programa.getAreas()) {
             if (area.hasPoint(p)) {
                 return area;
             }
@@ -101,15 +98,6 @@ public class City extends JPanel {
 
     public Area getArea(int x, int y) {
         return getArea(new Point(x, y));
-    }
-
-    protected void setUpRobots(){
-        for(Robot robot : program.getRobots()) {
-            robot.addMoveListener((Robot r, MoveEvent event) -> {
-                drawPath(event.getPosAnt(), event.getPosAct(), r.getColor());
-                repaint();
-            });
-        }
     }
 
     public BufferedImage getMapBuffer() {

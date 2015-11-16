@@ -1,41 +1,48 @@
 package unlp.info.rInfo.gui;
 
-import unlp.info.rInfo.events.ChangePosEvent;
-import unlp.info.rInfo.events.ChangePosListener;
-import unlp.info.rInfo.events.MoveEvent;
-import unlp.info.rInfo.events.MoveListener;
-
-import java.awt.*;
+import unlp.info.rInfo.*;
+import unlp.info.rInfo.events.*;
+import java.awt.Point;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
-public abstract class Robot implements Runnable {
+public class GRobot implements Runnable {
 	public static final int	NORTE 	= 0,
                             ESTE 	= 1,
                             SUR 	= 2,
 							OESTE 	= 3,
-                            FPS     = 20,
+                            FPS     = 10,
                             INTERVAL = 1000/FPS;
 
-	protected String nombre;
+	protected int id;
 	protected Color color;
 	protected Point pos = new Point(0,99);
-	protected int Bolsa;
 	protected int sentido = NORTE;
-    protected ArrayList<MoveListener> moveListeners = new ArrayList<MoveListener>();
+    protected ArrayList<ChangeDirectionListener> changeDirectionListeners = new ArrayList<ChangeDirectionListener>();
     protected ArrayList<ChangePosListener> changePosListeners = new ArrayList<ChangePosListener>();
+    protected ArrayList<MoveListener> moveListeners = new ArrayList<MoveListener>();
+    protected ArrayList<ChangeStateListener> changeStateListener = new ArrayList<ChangeStateListener>();
     private Thread thread;
     private boolean running = false;
+    private Robot robot;
+
 	
-	public Robot(){
-		setColor(new Color(0xFF3232));
+	public GRobot(Robot robot){
+        this.robot = robot;
 	}
 	
-	public Robot(String nombre){
-        this();
-		this.nombre = nombre;
+	public GRobot(int id, Robot robot){
+        this(robot);
+		this.id = id;
 	}
 
-    protected void mover(){
+    public void run(){
+        this.running = true;
+        robot.comenzar();
+    }
+
+    public void mover(){
         Point posAnt = (Point)pos.clone();
         switch (sentido){
             case NORTE:
@@ -60,20 +67,14 @@ public abstract class Robot implements Runnable {
         }
     }
 
-    protected void derecha(){
+    public void derecha(){
         if(sentido == 3){
             sentido = NORTE;
         }else{
             sentido += 1;
         }
-    }
 
-    protected void izquierda(){
-        if(sentido == NORTE){
-            sentido = OESTE;
-        }else{
-            sentido -= 1;
-        }
+        dispatchChangeDirectionListeners(this, sentido);
     }
 
     public void boot(){
@@ -83,14 +84,15 @@ public abstract class Robot implements Runnable {
         running = true;
         thread = new Thread(this);
         thread.start();
+        dispatchChangeStateListeners(this, "Ejecutandose");
     }
 
-	public String getNombre() {
-		return nombre;
+	public int getId() {
+		return id;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Color getColor() {
@@ -109,27 +111,40 @@ public abstract class Robot implements Runnable {
 		this.pos = pos;
 	}
 
-	public int getBolsa() {
-		return Bolsa;
-	}
-
-	public void setBolsa(int bolsa) {
-		Bolsa = bolsa;
-	}
-
     public int getSentido() {
         return sentido;
     }
 
-    public void addMoveListener(MoveListener moveListener){
-        moveListeners.add(moveListener);
+    public void addMoveListener(MoveListener listener){
+        moveListeners.add(listener);
     }
 
-    public ArrayList<MoveListener> getMoveListeners(){
-        return moveListeners;
+    public void addChangePosListener(ChangePosListener listener){
+        changePosListeners.add(listener);
     }
 
-    public void dispatchMoveListeners(Robot robot, Point posAct, Point posAnt, int sentido){
+    public void addChangeDirectionListener(ChangeDirectionListener listener) { 
+    	changeDirectionListeners.add(listener); 
+    }
+
+    public void addChangeStateListener(ChangeStateListener listener) { 
+    	changeStateListener.add(listener); 
+    }
+
+    public ArrayList<ChangePosListener> getChangePosListeners(){
+        return changePosListeners;
+    }
+
+    public void dispatchChangePosListeners(GRobot robot, Point posAct, Point posAnt){
+        ChangePosEvent event = new ChangePosEvent(posAct, posAnt);
+        if(changePosListeners != null) {
+            for (ChangePosListener listener : changePosListeners) {
+                listener.onChangePos(robot, event);
+            }
+        }
+    }
+
+    public void dispatchMoveListeners(GRobot robot, Point posAct, Point posAnt, int sentido){
         MoveEvent event = new MoveEvent(posAct, posAnt, sentido);
         if (moveListeners != null) {
             for (MoveListener listener : moveListeners) {
@@ -139,51 +154,52 @@ public abstract class Robot implements Runnable {
         dispatchChangePosListeners(robot, posAct, posAnt);
     }
 
-    public void addChangePosListener(ChangePosListener changePosListener){
-        changePosListeners.add(changePosListener);
-    }
-
-    public ArrayList<ChangePosListener> getChangePosListeners(){
-        return changePosListeners;
-    }
-
-    public void dispatchChangePosListeners(Robot robot, Point posAct, Point posAnt){
-        ChangePosEvent event = new ChangePosEvent(posAct, posAnt);
-        if(changePosListeners != null) {
-            for (ChangePosListener listener : changePosListeners) {
-                listener.onChangePos(robot, event);
+    public void dispatchChangeDirectionListeners(GRobot robot, int sentido){
+        ChangeDirectionEvent event = new ChangeDirectionEvent(sentido);
+        if (changeDirectionListeners != null) {
+            for (ChangeDirectionListener listener : changeDirectionListeners) {
+                listener.onChangeDirection(robot, event);
             }
         }
     }
 
-    public void draw(Graphics g){
+    public void dispatchChangeStateListeners(GRobot robot, String state){
+    	StateChangeEvent event = new StateChangeEvent(state);
+        if (changeStateListener != null) {
+            for (ChangeStateListener listener : changeStateListener) {
+                listener.onStateChange(robot, event);
+            }
+        }
+    }
+
+    public void draw(Graphics g) {
         Color bc = g.getColor();
-        int x = ((pos.x * 2 * City.SCALE)- 1), y = ((pos.y * 2 * City.SCALE ) - 1);
+        int x = ((pos.x * 2 * City.SCALE) - 1), y = ((pos.y * 2 * City.SCALE) - 1);
         g.setColor(color);
         g.fillOval(x, y, 10, 10);
         g.setColor(Color.black);
         g.drawOval(x, y, 10, 10);
 
-        switch (sentido){
-            case Robot.NORTE:
+        switch (sentido) {
+            case GRobot.NORTE:
                 g.fillOval(x + 2, y + 1, 3, 3);
                 g.fillOval(x + 6, y + 1, 3, 3);
                 //g.drawLine(x + 5, y, x + 5, y + 5);
                 //g.drawLine(x, y + 5, x + 10, y + 5);
                 break;
-            case Robot.SUR:
+            case GRobot.SUR:
                 g.fillOval(x + 2, y + 6, 3, 3);
                 g.fillOval(x + 6, y + 6, 3, 3);
                 //g.drawLine(x + 5, y + 5, x + 5, y + 10);
                 //g.drawLine(x, y + 5, x + 10, y + 5);
                 break;
-            case Robot.ESTE:
+            case GRobot.ESTE:
                 g.fillOval(x + 6, y + 1, 3, 3);
                 g.fillOval(x + 6, y + 6, 3, 3);
                 //g.drawLine(x + 5, y + 5, x + 10, y + 5);
                 //g.drawLine(x + 5, y, x + 5, y + 10);
                 break;
-            case Robot.OESTE:
+            case GRobot.OESTE:
                 g.fillOval(x + 1, y + 1, 3, 3);
                 g.fillOval(x + 1, y + 6, 3, 3);
                 //g.drawLine(x, y + 5, x + 5, y + 5);

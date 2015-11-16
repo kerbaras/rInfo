@@ -1,55 +1,69 @@
 package unlp.info.rInfo;
 
-import java.awt.Point;
+import unlp.info.rInfo.gui.GRobot;
 
-public abstract class Robot extends unlp.info.rInfo.gui.Robot {
-	private Programa programa;
+import java.awt.*;
 
-	public Robot(String nombre) {
-		super(nombre);
+public abstract class Robot{
+	private GRobot robot;
+
+	public Robot(int id) {
+		robot = new GRobot(id, this);
 	}
+
+	public abstract void comenzar();
 	
-	protected synchronized void bloquearEsquina(Point esquina){
+	protected void bloquearEsquina(int x, int y){
+		robot.dispatchChangeStateListeners(robot, "Esperando");
+		Point esquina = new Point(x,y);
 		try {
-			while (programa.isEsquinaBlocked(esquina)) {
-				wait();
+			Boolean esq = Programa.getEsquina(esquina);
+			synchronized (esq) {
+				while (Programa.isEsquinaBlocked(esquina)) {
+						esq.wait();
+				}
+				Programa.bloquearEsquina(esquina);
+				robot.dispatchChangeStateListeners(robot, "Ejecutando");
 			}
-			programa.bloquearEsquina(esquina);
 		}catch (InterruptedException e){
+			robot.dispatchChangeStateListeners(robot, "Error");
 			e.printStackTrace();
+			Programa.informar("Error", this);
+		}catch (Exception e) {
+			robot.dispatchChangeStateListeners(robot, "Error");
+			e.printStackTrace();
+			Programa.informar("Error", this);
 		}
 		
 	}
 
-	protected synchronized void liberarEsquina(Point esquina){
-		programa.liberarEsquina(esquina);
+	protected void liberarEsquina(int x, int y){
+			Programa.liberarEsquina(new Point(x, y));
 	}
-	
-	protected void enviarMensaje(Robot robot, String id , String data){
-		
-	}
-	
-	protected void enviarMensaje(Robot robot, String id, int data){
-		
-	}
-	
-	protected void enviarMensaje(Robot robot, String id, boolean data){
-		
-	}
-	
-	protected void enviarMensaje(Robot robot, String data){
-		
-	}
-	
-	public synchronized void recibirMensaje(Robot robot, String data){
 
+	public int getId(){
+		return robot.getId();
 	}
-	
-	protected int getMensaje(){
-		return 0;
+
+	public void setColor(Color color){
+		this.robot.setColor(color);
 	}
-	
-	public synchronized void dispatchMensaje(Robot robot, String id , Object data){
-		
+
+	protected void mover(){ this.robot.mover();	}
+	protected void derecha(){
+		this.robot.derecha();
+	}
+	protected void setPos(int x, int y){ this.robot.setPos(new Point(x, y));}
+	protected int getAv() {return this.robot.getPos().x;}
+	protected int getCa() {return this.robot.getPos().y;}
+
+	public void iniciar(int x, int y){
+		Programa.registrarRobot(this, robot);
+		robot.setPos(new Point(x, y));
+		robot.boot();
+	}
+
+	protected void informar(Object msg){
+		Programa.informar(msg, this);
 	}
 }

@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: unlp.info.rInfo.Programa
-Private-Package: unlp.info.rInfo.events
-Private-Package: unlp.info.rInfo.gui
+Library-Name: r-Info
+Created-By: Matias Pierobon
+Export-Package: unlp.info.rInfo, unlp.info.rInfo.areas
+Private-Package: unlp.info.rInfo.events, unlp.info.rInfo.gui

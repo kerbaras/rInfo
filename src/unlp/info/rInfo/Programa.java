@@ -1,96 +1,96 @@
 package unlp.info.rInfo;
 
-import unlp.info.rInfo.areas.*;
 import unlp.info.rInfo.gui.Area;
+import unlp.info.rInfo.gui.GRobot;
 import unlp.info.rInfo.gui.Workspace;
-
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.TreeMap;
 
-public class Programa implements Runnable {
+public final class Programa{
 
-	private ArrayList<Robot> robots;
-	private ArrayList<Area> areas;
-	private Thread thread;
-	private boolean running;
-	private TreeMap<Point, Boolean>esquinasBloqueadas;
-	
-	public static void main(String[] args) {
+	private static ArrayList<Robot> robots = new ArrayList<Robot>();
+	private static ArrayList<Area> areas = new ArrayList<Area>();
+	private static Boolean[][] esquinasBloqueadas = new Boolean[100][100];
+	private static Integer[][] papeles = new Integer[100][100];
+	private static Integer[][] flores = new Integer[100][100];
+	private static Boolean[][] obstaculos = new Boolean[100][100];
+	private static Workspace workspace;
 
-		Robot1 r1 = new Robot1("Robot1");
-		r1.setPos(new Point(0, 0));
-		Robot2 r2 = new Robot2("Robot2");
-		r2.setPos(new Point(99, 99));
-		Robot1 r3 = new Robot1("Robot3");
-		r3.setPos(new Point(0, 19));
-		r3.setColor(Color.green);
-
-		AreaC area = new AreaC(0,0, 99,99);
-		
-
-		Programa program = new Programa();
-		program.addRobot(r1);
-		program.addRobot(r2);
-		program.addRobot(r3);
-		program.addArea(area);
-		program.comenzar();
-		
-	}
-	
-	public Programa(){
-		running = false;
-		robots = new ArrayList<Robot>();
-		areas = new ArrayList<Area>();
-		esquinasBloqueadas = new TreeMap<>();
-	}
-
-	public void comenzar(){
-		if(running){
-			return;
+	public static synchronized void registrarRobot(Robot robot, GRobot guiRobot){
+		if (workspace == null){
+			workspace = new Workspace();
+			workspace.setVisible(true);
 		}
-		running = true;
-		thread = new Thread(this);
-		thread.start();
-	}
-	
-	@Override
-	public void run(){
-		Workspace workspace = new Workspace(this);
-		workspace.setVisible(true);
-		
-		for (Robot robot : robots) {
-			robot.boot();
-		}
+		addRobot(robot);
+		workspace.registrarRobot(guiRobot);
 	}
 
-	public ArrayList<Robot> getRobots() {
+	public static ArrayList<Robot> getRobots() {
 		return robots;
 	}
 
-	public void addRobot(Robot robot){
+	public static void addRobot(Robot robot){
 		robots.add(robot);
 	}
 
-	public ArrayList<Area> getAreas() {
+	public static ArrayList<Area> getAreas() {
 		return areas;
 	}
 
-	public void addArea(Area area){
+	public static void addArea(Area area){
 		areas.add(area);
 	}
 
-	public boolean isEsquinaBlocked(Point esquina){
-		return esquinasBloqueadas.get(esquina);
+	public static synchronized boolean isEsquinaBlocked(Point esquina){
+		Boolean esq = getEsquina(esquina);
+		return  (esq == null) ? false : esq;
 	}
 
-	public synchronized void bloquearEsquina(Point esquina){
-		esquinasBloqueadas.put(esquina, true);
+	public static synchronized void bloquearEsquina(Point esquina){
+		Boolean esq = getEsquina(esquina);
+		esq = true;
 	}
 
-	public synchronized void liberarEsquina(Point esquina){
-		esquinasBloqueadas.put(esquina, false);
-		notifyAll();
+	public static synchronized void liberarEsquina(Point esquina){
+		Boolean esq = getEsquina(esquina);
+		esq = false;
+		esq.notify();
+	}
+
+	public static Boolean getEsquina(Point esquina) {
+		Boolean esq = esquinasBloqueadas[esquina.x][esquina.y];
+		if(esq == null){
+			esquinasBloqueadas[esquina.x][esquina.y] = new Boolean(false);
+		}
+		return esquinasBloqueadas[esquina.x][esquina.y];
+	}
+
+	public static void informar(Object msg, Robot robot){
+		workspace.informar(msg, "Robot " + robot.getId());
+		System.out.println("Robot "+ robot.getId() + ": " + msg);
+	}
+
+	public static void setPapeles(Point esquina, int cant){
+		papeles[esquina.x][esquina.y] = cant;
+	}
+
+	public static int getPapeles(Point esquina){
+		return (papeles[esquina.x][esquina.y]  == null) ? 0 : papeles[esquina.x][esquina.y];
+	}
+
+	public static void setFlores(Point esquina, int cant){
+		flores[esquina.x][esquina.y] = cant;
+	}
+
+	public static int getFlores(Point esquina){
+		return (flores[esquina.x][esquina.y]  == null) ? 0 : flores[esquina.x][esquina.y];
+	}
+
+	public static void setObstaculos(Point esquina, boolean cant){
+		obstaculos[esquina.x][esquina.y] = cant;
+	}
+
+	public static boolean getObstaculos(Point esquina){
+		return (obstaculos[esquina.x][esquina.y]  == null) ? false : obstaculos[esquina.x][esquina.y];
 	}
 }
