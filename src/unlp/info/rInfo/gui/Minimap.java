@@ -80,30 +80,6 @@ public class Minimap extends JPanel{
 
     }
 
-    public BufferedImage getBufferedImage() {
-        return bg;
-    }
-
-    public void setBufferedImage(BufferedImage bg) {
-        this.bg = bg;
-    }
-
-    public Rectangle2D getRect() {
-        return rect;
-    }
-
-    public void setRect(Rectangle2D rect) {
-        this.rect = rect;
-    }
-
-    public JViewport getViewport() {
-        return viewport;
-    }
-
-    public void setViewport(JViewport viewport) {
-        this.viewport = viewport;
-    }
-
     public void onMouseChange(Point p){
         int w = viewport.getSize().width / 10, h =  viewport.getSize().height / 10;
         int x = (int)(p.getX() - w / 2), y = (int)(p.getY() - h/2);

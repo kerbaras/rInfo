@@ -2,11 +2,8 @@ package unlp.info.rInfo.gui;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.TreeMap;
 import javax.swing.JPanel;
 import unlp.info.rInfo.Programa;
-import unlp.info.rInfo.events.MoveEvent;
-
 
 @SuppressWarnings("serial")
 public class City extends JPanel {
@@ -16,9 +13,6 @@ public class City extends JPanel {
             SCALE = 10;
 
     private BufferedImage mapBuffer;
-    private TreeMap<Point, Integer> flores;
-    private TreeMap<Point, Integer> papeles;
-    private TreeMap<Point, Integer> obstaculos;
     private Workspace workspace;
 
     public City(Workspace workspace) {
@@ -28,7 +22,6 @@ public class City extends JPanel {
         setMinimumSize(dimension);
         setMaximumSize(dimension);
         setDoubleBuffered(true);
-        flores = new TreeMap<Point, Integer>();
         mapBuffer = new BufferedImage(2011, 2011, BufferedImage.TYPE_INT_ARGB);
         drawMap(mapBuffer.getGraphics());
         repaint();
@@ -68,7 +61,7 @@ public class City extends JPanel {
                         g.setColor(squareColor);
                     }
                 }
-                g.fillRect(i * 2 * SCALE + 10, j * 2 * SCALE + 10, 1 * SCALE, 1 * SCALE);
+                g.fillRect(i * 2 * SCALE + 10, j * 2 * SCALE + 10, SCALE, SCALE);
             }
         }
     }

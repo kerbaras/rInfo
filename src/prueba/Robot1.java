@@ -22,10 +22,6 @@ public class Robot1 extends Robot {
     public void comenzar(){
     	bloquearEsquina(99,99);
         recorrer();
-        setPos(getAv() + 15, getCa() + 10);
-        informar("Termine!");
-        setColor(new Color(0,100,255));
-        recorrer();
         liberarEsquina(99,99);
     }
 }

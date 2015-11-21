@@ -13,10 +13,10 @@ public final class Ciudad {
     }
 
     public static synchronized void ponerObstaculo(int x, int y){
-        Programa.setObstaculos(new Point(x, y), true);
+        Programa.setObstaculo(new Point(x, y), true);
     }
 
     public static synchronized void sacarObstaculo(int x, int y){
-        Programa.setObstaculos(new Point(x, y), false);
+        Programa.setObstaculo(new Point(x, y), false);
     }
 }

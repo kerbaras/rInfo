@@ -5,12 +5,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import unlp.info.rInfo.Programa;
-
 @SuppressWarnings("serial")
 public class SideBar extends JPanel {
-
-	private Minimap minimapa;
 	private int pos;
 	
 	public SideBar(Minimap minimapa){
@@ -22,9 +18,8 @@ public class SideBar extends JPanel {
 		lblMinimapa.setBounds(12, 12, 200, 15);
 		add(lblMinimapa);
 
-		this.minimapa = minimapa;
-		this.minimapa.setLocation(12, 35);
-		add(this.minimapa);
+		minimapa.setLocation(12, 35);
+		add(minimapa);
 
 		pos = minimapa.getHeight() + minimapa.getY();
 	}
@@ -35,6 +30,5 @@ public class SideBar extends JPanel {
 		add(aux);
 		aux.setLocation(12, pos + 20);
 		pos += 140;
-		// suscribe event handler
 	}
 }

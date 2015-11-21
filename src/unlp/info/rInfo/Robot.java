@@ -1,5 +1,6 @@
 package unlp.info.rInfo;
 
+import unlp.info.rInfo.gui.Area;
 import unlp.info.rInfo.gui.GRobot;
 
 import java.awt.*;
@@ -15,30 +16,31 @@ public abstract class Robot{
 	
 	protected void bloquearEsquina(int x, int y){
 		robot.dispatchChangeStateListeners(robot, "Esperando");
-		Point esquina = new Point(x,y);
 		try {
-			Boolean esq = Programa.getEsquina(esquina);
-			synchronized (esq) {
-				while (Programa.isEsquinaBlocked(esquina)) {
-						esq.wait();
+			Esquina esquina = Programa.getEsquina(new Point(x,y));
+			synchronized (esquina) {
+				while (esquina.isBlocked()) {
+					esquina.wait();
 				}
-				Programa.bloquearEsquina(esquina);
-				robot.dispatchChangeStateListeners(robot, "Ejecutando");
+				esquina.bloquear();
 			}
-		}catch (InterruptedException e){
-			robot.dispatchChangeStateListeners(robot, "Error");
-			e.printStackTrace();
-			Programa.informar("Error", this);
+				robot.dispatchChangeStateListeners(robot, "Ejecutando");
 		}catch (Exception e) {
 			robot.dispatchChangeStateListeners(robot, "Error");
 			e.printStackTrace();
-			Programa.informar("Error", this);
+			Programa.informar("Error: " + e.getMessage(), this);
 		}
 		
 	}
 
 	protected void liberarEsquina(int x, int y){
-			Programa.liberarEsquina(new Point(x, y));
+		try {
+			Programa.getEsquina(new Point(x,y)).liberar();
+		}catch (Exception e) {
+			robot.dispatchChangeStateListeners(robot, "Error");
+			e.printStackTrace();
+			Programa.informar("Error: " + e.getMessage(), this);
+		}
 	}
 
 	public int getId(){
@@ -61,6 +63,14 @@ public abstract class Robot{
 		Programa.registrarRobot(this, robot);
 		robot.setPos(new Point(x, y));
 		robot.boot();
+	}
+
+	public void asignarArea(Area area){
+		try {
+			area.addRobot(this);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	protected void informar(Object msg){

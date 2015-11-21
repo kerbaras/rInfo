@@ -10,10 +10,7 @@ public final class Programa{
 
 	private static ArrayList<Robot> robots = new ArrayList<Robot>();
 	private static ArrayList<Area> areas = new ArrayList<Area>();
-	private static Boolean[][] esquinasBloqueadas = new Boolean[100][100];
-	private static Integer[][] papeles = new Integer[100][100];
-	private static Integer[][] flores = new Integer[100][100];
-	private static Boolean[][] obstaculos = new Boolean[100][100];
+	private static Esquina[][] esquinas = new Esquina[100][100];
 	private static Workspace workspace;
 
 	public static synchronized void registrarRobot(Robot robot, GRobot guiRobot){
@@ -23,10 +20,6 @@ public final class Programa{
 		}
 		addRobot(robot);
 		workspace.registrarRobot(guiRobot);
-	}
-
-	public static ArrayList<Robot> getRobots() {
-		return robots;
 	}
 
 	public static void addRobot(Robot robot){
@@ -41,28 +34,17 @@ public final class Programa{
 		areas.add(area);
 	}
 
-	public static synchronized boolean isEsquinaBlocked(Point esquina){
-		Boolean esq = getEsquina(esquina);
-		return  (esq == null) ? false : esq;
-	}
-
-	public static synchronized void bloquearEsquina(Point esquina){
-		Boolean esq = getEsquina(esquina);
-		esq = true;
-	}
-
-	public static synchronized void liberarEsquina(Point esquina){
-		Boolean esq = getEsquina(esquina);
-		esq = false;
-		esq.notify();
-	}
-
-	public static Boolean getEsquina(Point esquina) {
-		Boolean esq = esquinasBloqueadas[esquina.x][esquina.y];
-		if(esq == null){
-			esquinasBloqueadas[esquina.x][esquina.y] = new Boolean(false);
+	public static Esquina getEsquina(Point e) {
+		Esquina esquina = esquinas[e.x][e.y];
+		if(esquina == null){
+			esquinas[e.x][e.y] = new Esquina();
+			esquina = esquinas[e.x][e.y];
 		}
-		return esquinasBloqueadas[esquina.x][esquina.y];
+		return esquina;
+	}
+
+	public static boolean existeEsquina(Point e){
+		return !(esquinas[e.x][e.y] == null);
 	}
 
 	public static void informar(Object msg, Robot robot){
@@ -70,27 +52,42 @@ public final class Programa{
 		System.out.println("Robot "+ robot.getId() + ": " + msg);
 	}
 
-	public static void setPapeles(Point esquina, int cant){
-		papeles[esquina.x][esquina.y] = cant;
+	public static void setPapeles(Point e, int cant){
+		Esquina esquina = getEsquina(e);
+		esquina.setPapeles(cant);
 	}
 
-	public static int getPapeles(Point esquina){
-		return (papeles[esquina.x][esquina.y]  == null) ? 0 : papeles[esquina.x][esquina.y];
+	public static int getPapeles(Point e){
+		if(existeEsquina(e)) {
+			return esquinas[e.x][e.y].getPapeles();
+		}else{
+			return 0;
+		}
 	}
 
-	public static void setFlores(Point esquina, int cant){
-		flores[esquina.x][esquina.y] = cant;
+	public static void setFlores(Point e, int cant){
+		Esquina esquina = getEsquina(e);
+		esquina.setFlores(cant);
 	}
 
-	public static int getFlores(Point esquina){
-		return (flores[esquina.x][esquina.y]  == null) ? 0 : flores[esquina.x][esquina.y];
+	public static int getFlores(Point e){
+		if(existeEsquina(e)) {
+			return esquinas[e.x][e.y].getFlores();
+		}else{
+			return 0;
+		}
 	}
 
-	public static void setObstaculos(Point esquina, boolean cant){
-		obstaculos[esquina.x][esquina.y] = cant;
+	public static void setObstaculo(Point e, boolean o){
+		Esquina esquina = getEsquina(e);
+		esquina.setObstaculo(o);
 	}
 
-	public static boolean getObstaculos(Point esquina){
-		return (obstaculos[esquina.x][esquina.y]  == null) ? false : obstaculos[esquina.x][esquina.y];
+	public static boolean hayObstaculo(Point e){
+		if(existeEsquina(e)) {
+			return esquinas[e.x][e.y].hayObstaculo();
+		}else{
+			return false;
+		}
 	}
 }

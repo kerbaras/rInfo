@@ -1,5 +1,6 @@
 package unlp.info.rInfo.gui;
 
+import unlp.info.rInfo.Programa;
 import unlp.info.rInfo.Robot;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,9 +10,10 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public abstract class Area {
-	protected Color color;
-	protected ArrayList<Robot> robots = new ArrayList<Robot>();
-	protected Point from, to;
+	private Color color;
+	private ArrayList<Robot> robots = new ArrayList<>();
+	private Point from, to;
+	private boolean registrada;
 
 	public Area(Color color) {
 		this.color = color;
@@ -36,13 +38,17 @@ public abstract class Area {
 	}
 
 	public void draw(Graphics g, int scale) {
+		int x, y, w, h;
+		x = (from.x * 2 * scale) + 5;
+		y = from.y * 2 * scale + 5;
+		w = ((to.x +1) * 2 * scale) - x + 5;
+		h = ((to.y +1) * 2 * scale) - y + 5;
 		Color bc = g.getColor();
 		g.setColor(color.brighter().brighter().brighter().brighter());
-		g.fillRect(from.x * 2 * scale, from.y * 2 * scale , (to.x - from.x) * 2 * scale + 40, (to.y - from.y) * 2 * scale + 30);
+		g.fillRect(x, y, w, h);
 		g.setColor(color.darker());
-		g.drawRect(from.x * 2 * scale + 1, from.y * 2 * scale + 1, (to.x - from.x) * 2 * scale + 40, (to.y - from.y) * 2 * scale + 30);
-		g.drawRect(from.x * 2 * scale, from.y * 2 * scale , (to.x - from.x) * 2 * scale + 40, (to.y - from.y) * 2 * scale + 30);
-		g.drawRect(from.x * 2 * scale -1, from.y * 2 * scale - 1, (to.x - from.x) * 2 * scale + 40, (to.y - from.y) * 2 * scale + 30);
+		g.drawRect(x, y, w, h);
+		g.drawRect(x + 1, y + 1, w, h);
 		g.setColor(bc);
 	}
 
@@ -58,7 +64,14 @@ public abstract class Area {
 		return robots;
 	}
 
-	public void addRobot(Robot robot) {
+	public void addRobot(Robot robot) throws Exception{
+		if(robots.contains(robot)){
+			throw new Exception("El robot ya esta asignado a esta area");
+		}
+		if(!registrada){
+			registrada = true;
+			Programa.addArea(this);
+		}
 		this.robots.add(robot);
 	}
 
@@ -83,10 +96,6 @@ public abstract class Area {
 	}
 
 	public boolean hasPoint(Point p) {
-		if ((p.x >= from.x) && (p.x <= to.x) && (p.y >= from.y) && (p.y <= to.y)) {
-			return true;
-		} else {
-			return false;
-		}
+		return ((p.x >= from.x) && (p.x <= to.x) && (p.y >= from.y) && (p.y <= to.y));
 	}
 }

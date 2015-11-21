@@ -40,6 +40,7 @@ public class GRobot implements Runnable {
     public void run(){
         this.running = true;
         robot.comenzar();
+        dispatchChangeStateListeners(this, "Finalizado");
     }
 
     public void mover(){
