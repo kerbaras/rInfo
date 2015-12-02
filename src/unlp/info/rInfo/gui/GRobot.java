@@ -175,7 +175,7 @@ public class GRobot implements Runnable {
 
     public void draw(Graphics g) {
         Color bc = g.getColor();
-        int x = ((pos.x * 2 * City.SCALE) - 1), y = ((pos.y * 2 * City.SCALE) - 1);
+        int x = ((pos.x * 2 * City.SCALE)), y = ((pos.y * 2 * City.SCALE));
         g.setColor(color);
         g.fillOval(x, y, 10, 10);
         g.setColor(Color.black);

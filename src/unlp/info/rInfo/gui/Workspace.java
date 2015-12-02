@@ -39,14 +39,7 @@ public class Workspace extends JFrame{
 				robot.setColor(new Color(rnd.nextInt(155) + 100, rnd.nextInt(155) + 100, rnd.nextInt(155) + 100));
 			}
 		}
-		robot.addChangePosListener( (GRobot r, ChangePosEvent event)->city.repaint() );
-		robot.addMoveListener((GRobot r, MoveEvent event) -> {
-			city.drawPath(event.getPosAnt(), event.getPosAct(), r.getColor());
-			repaint();
-		});
-
-		robot.addChangeDirectionListener((GRobot r, ChangeDirectionEvent event)->city.repaint());
-
+		city.registrarRobot(robot);
 		sidebar.registrarRobot(robot);
 		robots.add(robot);
 	}
