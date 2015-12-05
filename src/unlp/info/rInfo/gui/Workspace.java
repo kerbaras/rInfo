@@ -1,13 +1,11 @@
 package unlp.info.rInfo.gui;
 
 import java.awt.*;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import unlp.info.rInfo.events.ChangeDirectionEvent;
-import unlp.info.rInfo.events.ChangePosEvent;
-import unlp.info.rInfo.events.MoveEvent;
 
 @SuppressWarnings("serial")
 public class Workspace extends JFrame{
@@ -16,6 +14,7 @@ public class Workspace extends JFrame{
 	private City city;
 	private ArrayList<GRobot> robots;
 	private Color[] defaultRobotColors = { new Color(0xFF3232), new Color(0x0EAED6), new Color(0xF78F00), new Color(0x3D14F7), new Color(0x2F60D6), new Color(0xD6BE05), new Color(0xF72F72) };
+	private Minimap minimap;
 
 	public Workspace(){
 		super("Workspace");
@@ -25,7 +24,7 @@ public class Workspace extends JFrame{
 		setLocationRelativeTo(null);
 		robots = new ArrayList<>();
 
-		city = new City(this);
+		city = new City();
 		
 		initComponents();
 	}
@@ -54,6 +53,7 @@ public class Workspace extends JFrame{
 		contentPane.setLayout(new BorderLayout(0, 0));
 
         JSplitPane splitPane = new JSplitPane();
+		splitPane.setDividerSize(0);
 
 		JScrollPane scrollPane = new JScrollPane(city);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
@@ -64,9 +64,9 @@ public class Workspace extends JFrame{
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         splitPane.setRightComponent(mainPanel);
 
-		Minimap minimapa = new Minimap(scrollPane.getViewport(), city.getMapBuffer());
+		minimap = new Minimap(scrollPane.getViewport(), city.getMapBuffer());
 
-		sidebar = new SideBar(minimapa);
+		sidebar = new SideBar(minimap);
 		splitPane.setLeftComponent(sidebar);
 		splitPane.setDividerLocation(217);
 		splitPane.setEnabled(false);
@@ -86,5 +86,13 @@ public class Workspace extends JFrame{
 
 	public ArrayList<GRobot> getRobots() {
 		return robots;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public Minimap getMinimap() {
+		return minimap;
 	}
 }

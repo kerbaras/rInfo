@@ -11,13 +11,11 @@ public class GRobot implements Runnable {
 	public static final int	NORTE 	= 0,
                             ESTE 	= 1,
                             SUR 	= 2,
-							OESTE 	= 3,
-                            FPS     = 10,
-                            INTERVAL = 1000/FPS;
+							OESTE 	= 3;
 
 	protected int id;
 	protected Color color;
-	protected Point pos = new Point(0,99);
+	protected Point pos;
 	protected int sentido = NORTE;
     protected ArrayList<ChangeDirectionListener> changeDirectionListeners = new ArrayList<ChangeDirectionListener>();
     protected ArrayList<ChangePosListener> changePosListeners = new ArrayList<ChangePosListener>();
@@ -62,7 +60,7 @@ public class GRobot implements Runnable {
         }
         dispatchMoveListeners(this, pos, posAnt, sentido);
         try{
-            thread.sleep(INTERVAL);
+            thread.sleep(1000/Programa.fps);
         }catch (InterruptedException e){
             e.printStackTrace();
         }
@@ -114,6 +112,14 @@ public class GRobot implements Runnable {
 
     public int getSentido() {
         return sentido;
+    }
+
+    public synchronized void dormir() {
+        try{
+            thread.sleep(1000/Programa.fps);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
     public void addMoveListener(MoveListener listener){

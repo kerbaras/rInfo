@@ -12,9 +12,12 @@ public final class Programa{
 	private static ArrayList<Area> areas = new ArrayList<Area>();
 	private static Esquina[][] esquinas = new Esquina[100][100];
 	private static Workspace workspace;
+	public static volatile int fps = 15;
+	private static boolean running = false;
 
 	public static synchronized void registrarRobot(Robot robot, GRobot guiRobot){
 		if (workspace == null){
+			running = true;
 			workspace = new Workspace();
 			workspace.setVisible(true);
 		}
@@ -89,5 +92,21 @@ public final class Programa{
 		}else{
 			return false;
 		}
+	}
+
+	public static synchronized void liberarEsquina(Point e){
+		workspace.getCity().drawFreeSquare(e);
+	}
+
+	public static synchronized void bloquearEsquina(Point e){
+		workspace.getCity().drawBlockedSquare(e);
+	}
+
+	public static boolean isRunning() {
+		return running;
+	}
+
+	public static Workspace getWorkspace() {
+		return workspace;
 	}
 }

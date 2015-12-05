@@ -84,14 +84,12 @@ public class Minimap extends JPanel{
         int w = viewport.getSize().width / 10, h =  viewport.getSize().height / 10;
         int x = (int)(p.getX() - w / 2), y = (int)(p.getY() - h/2);
 
-        if (x < 0){ x = 0; }
+        if (x < 0) x = 0;
+        else if (x > 200 - w) x = 200 - w;
 
-        if (x > 200 - w){ x = 200 - w; }
+        if (y < 0) y = 0;
+        else if (y > 200 - h) y = 200 - h;
 
-        if (y < 0){ y = 0; }
-
-        if (y > 200 - h) { y = 200 - h; }
-
-        viewport.setViewPosition(new Point(x * 21 / 2, y * 21 / 2));
+        viewport.setViewPosition(new Point(x * 10, y * 10));
     }
 }

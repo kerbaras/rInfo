@@ -73,7 +73,6 @@ public class Esquina {
         if(blocked){
             throw new Exception("No se puede bloquear una esquina bloqueada");
         }
-
         blocked = true;
     }
 

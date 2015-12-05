@@ -8,17 +8,16 @@ import javax.swing.border.TitledBorder;
 @SuppressWarnings("serial")
 public class SideBar extends JPanel {
 	private int pos;
-	
+
 	public SideBar(Minimap minimapa){
 		setLayout(null);
-		
 		JLabel lblMinimapa = new JLabel("Minimapa:");
 		lblMinimapa.setFont(new Font(Font.SANS_SERIF,Font.PLAIN, 12));
 		lblMinimapa.setText("Minimapa:");
 		lblMinimapa.setBounds(12, 12, 200, 15);
 		add(lblMinimapa);
 
-		minimapa.setLocation(12, 35);
+		minimapa.setLocation(7, 35);
 		add(minimapa);
 
 		pos = minimapa.getHeight() + minimapa.getY();

@@ -9,24 +9,24 @@ import unlp.info.rInfo.gui.Area;
 
 public class AreaP extends Area {
 	public AreaP() {
-		super(new Color(0x0016FF));
+		super(new Color(0x0A1EFF));
 	}
 
 	public AreaP(Rectangle rect) {
 
-		super(rect, new Color(0x0016FF));
+		super(rect, new Color(0x0A1EFF));
 	}
 
 	public AreaP(Point from, Point to) {
-		super(from, to, new Color(0x0016FF));
+		super(from, to, new Color(0x0A1EFF));
 	}
 
 	public AreaP(int x1, int y1, int x2, int y2) {
-		super(x1, y1, x2, y2, new Color(0x0016FF));
+		super(x1, y1, x2, y2, new Color(0x0A1EFF));
 	}
 
 	public AreaP(int x, int y, Dimension dim) {
-		super(x, y, dim, new Color(0x0016FF));
+		super(x, y, dim, new Color(0x0A1EFF));
 		
 	}
 }

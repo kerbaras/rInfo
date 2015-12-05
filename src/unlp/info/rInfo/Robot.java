@@ -2,18 +2,67 @@ package unlp.info.rInfo;
 
 import unlp.info.rInfo.gui.Area;
 import unlp.info.rInfo.gui.GRobot;
-
 import java.awt.*;
 
+@SuppressWarnings("unused")
 public abstract class Robot{
 	private GRobot robot;
+	private int flores = 0, papeles = 0;
 
 	public Robot(int id) {
 		robot = new GRobot(id, this);
 	}
 
-	public abstract void comenzar();
-	
+	protected void mover(){ this.robot.mover();	}
+	protected void derecha(){ this.robot.derecha(); }
+
+	protected int getAv() { return this.robot.getPos().x; }
+	protected int getCa() { return this.robot.getPos().y; }
+
+	protected boolean hayFlorEnLaBolsa() { return flores > 0; }
+	protected boolean hayPapelEnLaBolsa(){ return papeles > 0;}
+
+	protected boolean hayFlorEnLaEsquina() { return Programa.getFlores(robot.getPos()) > 0; }
+	protected boolean hayPapelEnLaEsquina() { return Programa.getPapeles(robot.getPos()) > 0; }
+	protected boolean hayObstaculoEnLaEsquina() { return Programa.hayObstaculo(robot.getPos()); }
+
+	protected void tomarFlor() {
+		if(hayFlorEnLaEsquina()){
+			Esquina esquina = Programa.getEsquina(robot.getPos());
+			esquina.setFlores(esquina.getFlores() - 1);
+			flores += 1;
+			Programa.getWorkspace().getCity().drawResource(robot.getPos());
+			robot.dormir();
+		}
+	}
+	protected void depositarFlor() {
+		if(flores > 0){
+			Esquina esquina = Programa.getEsquina(robot.getPos());
+			esquina.setFlores(esquina.getFlores() + 1);
+			flores -= 1;
+			Programa.getWorkspace().getCity().drawResource(robot.getPos());
+			robot.dormir();
+		}
+	}
+	protected void tomarPapel() {
+		if(hayPapelEnLaEsquina()){
+			Esquina esquina = Programa.getEsquina(robot.getPos());
+			esquina.setPapeles(esquina.getPapeles() - 1);
+			papeles += 1;
+			Programa.getWorkspace().getCity().drawResource(robot.getPos());
+			robot.dormir();
+		}
+	}
+	protected void depositarPapel() {
+		if(papeles > 0){
+			Esquina esquina = Programa.getEsquina(robot.getPos());
+			esquina.setPapeles(esquina.getPapeles() + 1);
+			flores -= 1;
+			Programa.getWorkspace().getCity().drawResource(robot.getPos());
+			robot.dormir();
+		}
+	}
+
 	protected void bloquearEsquina(int x, int y){
 		robot.dispatchChangeStateListeners(robot, "Esperando");
 		try {
@@ -23,19 +72,20 @@ public abstract class Robot{
 					esquina.wait();
 				}
 				esquina.bloquear();
+				Programa.bloquearEsquina(new Point(x,y));
 			}
-				robot.dispatchChangeStateListeners(robot, "Ejecutando");
+			robot.dispatchChangeStateListeners(robot, "Ejecutando");
 		}catch (Exception e) {
 			robot.dispatchChangeStateListeners(robot, "Error");
 			e.printStackTrace();
 			Programa.informar("Error: " + e.getMessage(), this);
 		}
-		
-	}
 
+	}
 	protected void liberarEsquina(int x, int y){
 		try {
 			Programa.getEsquina(new Point(x,y)).liberar();
+			Programa.liberarEsquina(new Point(x, y));
 		}catch (Exception e) {
 			robot.dispatchChangeStateListeners(robot, "Error");
 			e.printStackTrace();
@@ -43,25 +93,16 @@ public abstract class Robot{
 		}
 	}
 
-	public int getId(){
-		return robot.getId();
+	protected void informar(Object msg){
+		Programa.informar(msg, this);
 	}
 
-	public void setColor(Color color){
-		this.robot.setColor(color);
-	}
 
-	protected void mover(){ this.robot.mover();	}
-	protected void derecha(){
-		this.robot.derecha();
-	}
-	protected void setPos(int x, int y){ this.robot.setPos(new Point(x, y));}
-	protected int getAv() {return this.robot.getPos().x;}
-	protected int getCa() {return this.robot.getPos().y;}
+	public abstract void comenzar();
 
 	public void iniciar(int x, int y){
-		Programa.registrarRobot(this, robot);
 		robot.setPos(new Point(x, y));
+		Programa.registrarRobot(this, robot);
 		robot.boot();
 	}
 
@@ -73,7 +114,12 @@ public abstract class Robot{
 		}
 	}
 
-	protected void informar(Object msg){
-		Programa.informar(msg, this);
+
+	public int getId(){
+		return robot.getId();
+	}
+
+	public void setColor(Color color){
+		this.robot.setColor(color);
 	}
 }

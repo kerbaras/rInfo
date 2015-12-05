@@ -19,4 +19,8 @@ public final class Ciudad {
     public static synchronized void sacarObstaculo(int x, int y){
         Programa.setObstaculo(new Point(x, y), false);
     }
+
+    public static synchronized void setFPS(int fps){
+        Programa.fps = fps;
+    }
 }

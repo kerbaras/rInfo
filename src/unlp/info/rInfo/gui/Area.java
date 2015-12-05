@@ -44,7 +44,7 @@ public abstract class Area {
 		w = ((to.x +1) * 2 * scale) - x + 5;
 		h = ((to.y +1) * 2 * scale) - y + 5;
 		Color bc = g.getColor();
-		g.setColor(color.brighter().brighter().brighter().brighter());
+		g.setColor(color.brighter().brighter().brighter());
 		g.fillRect(x, y, w, h);
 		g.setColor(color.darker());
 		g.drawRect(x, y, w, h);
