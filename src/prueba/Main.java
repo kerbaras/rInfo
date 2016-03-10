@@ -13,16 +13,18 @@ public class Main {
             Ciudad.setFlores(rnd.nextInt(99), rnd.nextInt(99), rnd.nextInt(10));
             Ciudad.setPapeles(rnd.nextInt(99), rnd.nextInt(99), rnd.nextInt(10));
         }
+        
+        Ciudad.setFPS(10);
 
         Robot1 r1 = new Robot1(1);
         Robot1 r2 = new Robot1(2);
         Robot1 r3 = new Robot1(3);
-        Robot2 r4 = new Robot2(4);
+        /*Robot2 r4 = new Robot2(4);
         Robot2 r5 = new Robot2(5);
         Robot2 r6 = new Robot2(6);
         Robot2 r7 = new Robot2(7);
         Robot2 r8 = new Robot2(8);
-        Robot2 r9 = new Robot2(9);
+        Robot2 r9 = new Robot2(9);*/
 
         AreaC ciudad = new AreaC(1,1,10,10);
         AreaP campo = new AreaP(11,11,20,20);
@@ -37,11 +39,13 @@ public class Main {
         r2.iniciar(2,30);
         r3.iniciar(10, 15);
 
+      /*
         r4.iniciar(0, 60);
         r5.iniciar(2, 60);
         r6.iniciar(4, 60);
         r7.iniciar(6,60);
         r8.iniciar(8,60);
         r9.iniciar(10,60);
+      */
     }
 }

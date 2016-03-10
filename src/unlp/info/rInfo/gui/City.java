@@ -195,9 +195,12 @@ public class City extends JPanel {
 
         public void run() {
             while (Programa.isRunning()){
+            	long start = System.currentTimeMillis();
                 try {
                     city.repaint();
-                    sleep(1000 / 60);
+                    long wait = (1000/60) - ((System.currentTimeMillis() - start));
+                    if (wait < 1) wait = 1;
+                    sleep(wait);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
