@@ -3,7 +3,6 @@ package unlp.info.rInfo.ide;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-<<<<<<< HEAD
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
@@ -14,15 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Component;
 import java.awt.SystemColor;
 import java.awt.Font;
-=======
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Component;
 import java.io.File;
->>>>>>> 3261d107847dd309761f2c182194f919e8d4d254
 
 public class IDEApplication extends JFrame {
 
