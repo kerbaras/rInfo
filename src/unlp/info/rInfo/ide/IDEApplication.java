@@ -3,25 +3,12 @@ package unlp.info.rInfo.ide;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.JToolBar;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTree;
-import javax.swing.JEditorPane;
-import javax.swing.JLabel;
-import javax.swing.JProgressBar;
 import java.awt.Component;
-import javax.swing.Box;
+import java.io.File;
 
 public class IDEApplication extends JFrame {
 
@@ -30,6 +17,7 @@ public class IDEApplication extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTabbedPane tabbedPane;
 
 	/**
 	 * Launch the application.
@@ -82,7 +70,10 @@ public class IDEApplication extends JFrame {
 		
 		JButton btnNew = new JButton("New");
 		toolBar.add(btnNew);
-		
+
+		JButton btnOpen = new JButton("Open");
+		toolBar.add(btnOpen);
+
 		JButton btnSave = new JButton("Save");
 		toolBar.add(btnSave);
 		
@@ -101,7 +92,7 @@ public class IDEApplication extends JFrame {
 		JSplitPane splitPane = new JSplitPane();
 		contentPane.add(splitPane, BorderLayout.CENTER);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		splitPane.setRightComponent(tabbedPane);
 		
 		JEditorPane editorPane = new JEditorPane();

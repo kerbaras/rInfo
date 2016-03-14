@@ -4,7 +4,7 @@ import unlp.info.rInfo.Robot;
 
 public class Robot2 extends Robot {
 
-    public Robot2(int id) {super(id); }
+    public Robot2(int id) { super(id); }
 
     private void tomarFlores(){
         while (hayFlorEnLaEsquina()){
