@@ -11,6 +11,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -143,28 +144,34 @@ public class IDE extends JFrame {
     private JToolBar createToolBar(){
         JToolBar toolBar = new JToolBar();
 
-        JButton btnNew = new JButton("New");
+        JButton btnNew = new JButton(new ImageIcon(getClass().getResource("../gui/resources/new.png")));
         btnNew.addActionListener((ActionEvent e) -> newFile());
         toolBar.add(btnNew);
 
-        JButton btnOpen = new JButton("Open");
+        JButton btnOpen = new JButton(new ImageIcon(getClass().getResource("../gui/resources/open.png")));
         btnOpen.addActionListener((ActionEvent e) -> openFile());
         toolBar.add(btnOpen);
 
-        JButton btnSave = new JButton("Save");
-        toolBar.add(btnSave);
+        JButton btnSave = new JButton(new ImageIcon(getClass().getResource("../gui/resources/save.png")));
+		btnSave.setToolTipText("Save");
+		toolBar.add(btnSave);
+		
+		JButton btnSaveAll = new JButton(new ImageIcon(getClass().getResource("../gui/resources/save_all.png")));
+		btnSaveAll.setToolTipText("Save All");
+		toolBar.add(btnSaveAll);
+		
+		JToolBar toolBar_1 = new JToolBar();
+		toolBar.add(toolBar_1);
+		
+		JButton btnRun = new JButton(new ImageIcon(getClass().getResource("../gui/resources/run.png")));
+		btnRun.setToolTipText("Run");
+		toolBar_1.add(btnRun);
+		btnRun.addActionListener((ActionEvent e) -> prueba.Main.main(null));
 
-        JButton btnSaveAll = new JButton("Save All");
-        toolBar.add(btnSaveAll);
-
-        JToolBar toolBar_1 = new JToolBar();
-        toolBar.add(toolBar_1);
-
-        JButton btnDebug = new JButton("Debug");
-        toolBar_1.add(btnDebug);
-
-        JButton btnRun = new JButton("Run");
-        toolBar_1.add(btnRun);
+		
+		JButton btnDebug = new JButton(new ImageIcon(getClass().getResource("../gui/resources/debug.png")));
+		btnDebug.setToolTipText("Debug");
+		toolBar_1.add(btnDebug);
 
         return toolBar;
     }
