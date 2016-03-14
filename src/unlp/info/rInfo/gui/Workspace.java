@@ -18,6 +18,12 @@ public class Workspace extends JFrame{
 
 	public Workspace(){
 		super("Workspace");
+		try {
+            // Set System L&F
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    }catch (Exception e) {
+	    	
+	    }
 		setSize(800, 700);
         setMinimumSize(new Dimension(350, 200));
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
