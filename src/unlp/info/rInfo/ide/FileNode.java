@@ -7,7 +7,7 @@ import java.util.Vector;
 
 import javax.swing.tree.TreeNode;
 
-public class FileNode implements TreeNode {
+class FileNode implements TreeNode {
 	
 	private File file;
 	private FileNode parent;

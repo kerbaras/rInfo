@@ -4,17 +4,20 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Element;
 
-public class TextEditor extends JScrollPane {
+class TextEditor extends JScrollPane {
     private JTextArea lines;
     private int linesCount = 1;
     private JEditorPane editor;
     private File file;
+    private LinePainter linePainter;
 
     public TextEditor(){
         lines = new JTextArea();
@@ -45,6 +48,8 @@ public class TextEditor extends JScrollPane {
 
             }
         });
+        
+        linePainter = new LinePainter(editor, new Color(233, 239, 248));
     }
 
     public TextEditor (File file){
@@ -60,6 +65,10 @@ public class TextEditor extends JScrollPane {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public void save() throws IOException{
+    	editor.write(new FileWriter(file.getAbsoluteFile()));
     }
 
     private void setLineNumbers () {
