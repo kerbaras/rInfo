@@ -41,7 +41,8 @@ public class GRobot implements Runnable {
         dispatchChangeStateListeners(this, "Finalizado");
     }
 
-    public void mover(){
+    @SuppressWarnings("static-access")
+	public void mover(){
         Point posAnt = (Point)pos.clone();
         switch (sentido){
             case NORTE:
@@ -114,7 +115,8 @@ public class GRobot implements Runnable {
         return sentido;
     }
 
-    public synchronized void dormir() {
+    @SuppressWarnings("static-access")
+	public synchronized void dormir() {
         try{
             thread.sleep(1000/Programa.fps);
         }catch (InterruptedException e){

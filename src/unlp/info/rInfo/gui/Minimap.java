@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+@SuppressWarnings("serial")
 public class Minimap extends JPanel{
 
     private Rectangle2D rect;

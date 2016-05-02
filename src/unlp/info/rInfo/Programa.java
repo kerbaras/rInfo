@@ -5,10 +5,12 @@ import unlp.info.rInfo.gui.GRobot;
 import unlp.info.rInfo.gui.Workspace;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 public final class Programa{
 
-	private static ArrayList<Robot> robots = new ArrayList<Robot>();
+	private static Hashtable<Integer, Robot> robots = new Hashtable<Integer, Robot>();
 	private static ArrayList<Area> areas = new ArrayList<Area>();
 	private static Esquina[][] esquinas = new Esquina[100][100];
 	private static Workspace workspace;
@@ -26,7 +28,7 @@ public final class Programa{
 	}
 
 	public static void addRobot(Robot robot){
-		robots.add(robot);
+		robots.put(robot.getId(), robot);
 	}
 
 	public static ArrayList<Area> getAreas() {
@@ -108,5 +110,18 @@ public final class Programa{
 
 	public static Workspace getWorkspace() {
 		return workspace;
+	}
+
+	public static Robot getRobot(int id){
+		return robots.get(id);
+	}
+
+	public static void enviarMensaje(Robot from, Object mensaje){
+		Enumeration<Robot> robots = Programa.robots.elements();
+		while (robots.hasMoreElements()){
+			Robot robot = robots.nextElement();
+			if (robot != from)
+				robot.recivirMensaje(new Mensaje(from, mensaje));
+		}
 	}
 }

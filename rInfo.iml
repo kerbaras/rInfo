@@ -14,8 +14,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="inheritedJdk" />
-    <orderEntry type="module-library">
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="module-library" exported="">
       <library name="miglayout15-swing.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/miglayout15-swing.jar!/" />
@@ -26,7 +26,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="jgoodies-forms-1.8.0.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/jgoodies-forms-1.8.0.jar!/" />

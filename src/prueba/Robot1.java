@@ -1,7 +1,6 @@
 package prueba;
 
 import unlp.info.rInfo.Robot;
-import java.awt.Color;
 
 public class Robot1 extends Robot {
 

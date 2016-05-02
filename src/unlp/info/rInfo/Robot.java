@@ -4,10 +4,10 @@ import unlp.info.rInfo.gui.Area;
 import unlp.info.rInfo.gui.GRobot;
 import java.awt.*;
 
-@SuppressWarnings("unused")
 public abstract class Robot{
 	private GRobot robot;
 	private int flores = 0, papeles = 0;
+	private Buzon buzon = new Buzon();
 
 	public Robot(int id) {
 		robot = new GRobot(id, this);
@@ -121,5 +121,40 @@ public abstract class Robot{
 
 	public void setColor(Color color){
 		this.robot.setColor(color);
+	}
+
+	public void recivirMensaje(Object mensaje, Robot from){
+		recivirMensaje(new Mensaje(from, mensaje));
+	}
+
+	public void recivirMensaje(Mensaje mensaje){
+		buzon.newMensaje(mensaje);
+	}
+
+	protected void enviarMensaje(int id, Object mensaje){
+		enviarMensaje(Programa.getRobot(id), mensaje);
+	}
+
+	protected void enviarMensaje(Robot robot, Object mensaje){
+		robot.recivirMensaje(mensaje, this);
+	}
+
+	protected void enviarMensaje(Object mensaje){
+		Programa.enviarMensaje(this, mensaje);
+	}
+
+	protected Mensaje esperarMensaje(){
+		robot.dispatchChangeStateListeners(robot, "Esperando");
+		return buzon.esperar();
+	}
+
+	protected Mensaje esperarMensaje(Robot robot){
+		this.robot.dispatchChangeStateListeners(this.robot, "Esperando");
+		return buzon.esperar(robot);
+	}
+
+	protected Mensaje esperarMensaje(int id){
+		robot.dispatchChangeStateListeners(robot, "Esperando");
+		return buzon.esperar(Programa.getRobot(id));
 	}
 }

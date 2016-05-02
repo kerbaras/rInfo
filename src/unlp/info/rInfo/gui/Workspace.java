@@ -1,7 +1,6 @@
 package unlp.info.rInfo.gui;
 
 import java.awt.*;
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;

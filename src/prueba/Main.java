@@ -7,6 +7,22 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args){
+        Robot r1 = new Robot3(1), r2 = new Robot4(2), r3 = new Robot5(3);
+
+
+        AreaC ciudad = new AreaC(1,1,10,10);
+        AreaP campo = new AreaP(11,11,20,20);
+
+        r1.asignarArea(ciudad);
+        r2.asignarArea(campo);
+        r3.asignarArea(campo);
+
+        r2.iniciar(2,30);
+        r3.iniciar(11,30);
+        r1.iniciar(5,20);
+    }
+
+    public static void main2(String[] args){
 
         Random rnd = new Random();
         for (int i = 0; i < rnd.nextInt(100) + 100; i++) {

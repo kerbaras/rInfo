@@ -8,6 +8,7 @@ import unlp.info.rInfo.events.StateChangeEvent;
 import javax.swing.*;
 import java.awt.*;
 
+@SuppressWarnings("serial")
 public class RobotPane extends JPanel {
     private GRobot robot;
     private JLabel pos, estado, bFlores, bPapeles, eFlores, ePapeles;

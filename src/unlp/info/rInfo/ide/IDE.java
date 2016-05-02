@@ -4,21 +4,17 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.TreeModelListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
-import java.util.Hashtable;
 
+@SuppressWarnings("serial")
 public class IDE extends JFrame {
 
 	private JPanel contentPane;
@@ -75,7 +71,7 @@ public class IDE extends JFrame {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == e.VK_ENTER)
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
 					loadFile();
 			}
 		});
@@ -149,20 +145,20 @@ public class IDE extends JFrame {
 	private JToolBar createToolBar() {
 		JToolBar toolBar = new JToolBar();
 
-		JButton btnNew = new JButton(new ImageIcon(getClass().getResource("../gui/resources/new.png")));
+		JButton btnNew = new JButton(new ImageIcon(getClass().getResource("/resources/new.png")));
 		btnNew.addActionListener((ActionEvent e) -> newFile());
 		toolBar.add(btnNew);
 
-		JButton btnOpen = new JButton(new ImageIcon(getClass().getResource("../gui/resources/open.png")));
+		JButton btnOpen = new JButton(new ImageIcon(getClass().getResource("/resources/open.png")));
 		btnOpen.addActionListener((ActionEvent e) -> openFile());
 		toolBar.add(btnOpen);
 
-		JButton btnSave = new JButton(new ImageIcon(getClass().getResource("../gui/resources/save.png")));
+		JButton btnSave = new JButton(new ImageIcon(getClass().getResource("/resources/save.png")));
 		btnSave.setToolTipText("Save");
 		btnSave.addActionListener((ActionEvent e) -> save(tabbedPane.getSelectedIndex()));
 		toolBar.add(btnSave);
 
-		JButton btnSaveAll = new JButton(new ImageIcon(getClass().getResource("../gui/resources/save_all.png")));
+		JButton btnSaveAll = new JButton(new ImageIcon(getClass().getResource("/resources/save_all.png")));
 		btnSaveAll.setToolTipText("Save All");
 		btnSaveAll.addActionListener((ActionEvent e) -> saveAll());
 		toolBar.add(btnSaveAll);
@@ -170,12 +166,12 @@ public class IDE extends JFrame {
 		JToolBar toolBar_1 = new JToolBar();
 		toolBar.add(toolBar_1);
 
-		JButton btnRun = new JButton(new ImageIcon(getClass().getResource("../gui/resources/run.png")));
+		JButton btnRun = new JButton(new ImageIcon(getClass().getResource("/resources/run.png")));
 		btnRun.setToolTipText("Run");
 		toolBar_1.add(btnRun);
 		btnRun.addActionListener((ActionEvent e) -> prueba.Main.main(null));
 
-		JButton btnDebug = new JButton(new ImageIcon(getClass().getResource("../gui/resources/debug.png")));
+		JButton btnDebug = new JButton(new ImageIcon(getClass().getResource("/resources/debug.png")));
 		btnDebug.setToolTipText("Debug");
 		toolBar_1.add(btnDebug);
 
@@ -184,7 +180,7 @@ public class IDE extends JFrame {
 
 	private void openFile() {
 		JFileChooser fc = new JFileChooser();
-		fc.setFileSelectionMode(fc.FILES_AND_DIRECTORIES);
+		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			if (file.isDirectory()) {

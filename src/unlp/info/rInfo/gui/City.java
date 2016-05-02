@@ -18,9 +18,9 @@ public class City extends JPanel {
             HEIGHT = 1991;
 
     private BufferedImage buffer, mapBuffer, blockBuffer, resourceBuffer, pathBuffer, robotBuffer;
-    private Image flor = new ImageIcon(getClass().getResource("./resources/flor.png")).getImage();
-    private Image papel = new ImageIcon(getClass().getResource("./resources/papel.png")).getImage();
-    private Image obstaculo = new ImageIcon(getClass().getResource("./resources/obstaculo.png")).getImage();
+    private Image flor = new ImageIcon(getClass().getResource("/resources/flor.png")).getImage();
+    private Image papel = new ImageIcon(getClass().getResource("/resources/papel.png")).getImage();
+    private Image obstaculo = new ImageIcon(getClass().getResource("/resources/obstaculo.png")).getImage();
     private boolean needPaint = true;
 
     public City() {
