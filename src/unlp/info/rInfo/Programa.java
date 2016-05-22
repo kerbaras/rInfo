@@ -3,6 +3,8 @@ package unlp.info.rInfo;
 import unlp.info.rInfo.gui.Area;
 import unlp.info.rInfo.gui.GRobot;
 import unlp.info.rInfo.gui.Workspace;
+
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -28,6 +30,11 @@ public final class Programa{
 	}
 
 	public static void addRobot(Robot robot){
+		if(robots.containsKey(robot.getId())){
+			handle(new Exception("Duplicated Robot Key " + robot.getId()));
+			return;
+		}
+
 		robots.put(robot.getId(), robot);
 	}
 
@@ -116,12 +123,16 @@ public final class Programa{
 		return robots.get(id);
 	}
 
-	public static void enviarMensaje(Robot from, Object mensaje){
-		Enumeration<Robot> robots = Programa.robots.elements();
-		while (robots.hasMoreElements()){
-			Robot robot = robots.nextElement();
-			if (robot != from)
-				robot.recivirMensaje(new Mensaje(from, mensaje));
-		}
+	public static Enumeration<Robot> getRobots(){
+		return robots.elements();
+	}
+
+	public static void handle(Exception execption){
+
+		if(workspace != null)
+			workspace.mostrarMensaje(execption.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
+
+		System.out.println(execption.getMessage());
+		System.exit(0);
 	}
 }

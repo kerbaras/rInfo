@@ -43,23 +43,43 @@ public class GRobot implements Runnable {
 
     @SuppressWarnings("static-access")
 	public void mover(){
-        Point posAnt = (Point)pos.clone();
-        switch (sentido){
-            case NORTE:
-                pos.setLocation(pos.getX(), pos.getY() - 1);
-                break;
-            case SUR:
-                pos.setLocation(pos.getX(), pos.getY() + 1);
-                break;
+        Point posAnt = pos.getLocation(), nextPos = null;
+        Esquina esquinaAnt = Programa.getEsquina(posAnt);
+        synchronized(esquinaAnt.moveBlock) {
+            switch (sentido) {
+                case NORTE:
+                    nextPos = new Point((int) pos.getX(), (int) pos.getY() - 1);
+                    break;
+                case SUR:
+                    nextPos = new Point((int) pos.getX(), (int) pos.getY() + 1);
+                    break;
+                case OESTE:
+                    nextPos = new Point((int) pos.getX() - 1, (int) pos.getY());
+                    break;
+                case ESTE:
+                    nextPos = new Point((int) pos.getX() + 1, (int) pos.getY());
+                    break;
+            }
+            Esquina nextEsquina = Programa.getEsquina(nextPos);
+            if(nextEsquina.isBlocked()){
+                dispatchChangeStateListeners(this, "Error");
+                Programa.handle(new Exception("Robot " + id + " trató de moverse a una esquina bloqueada"));
+                return;
+            }
+            synchronized (nextEsquina.moveBlock) {
+                if (nextEsquina.getRobot() != null) {
+                    dispatchChangeStateListeners(this, "Error");
+                    Programa.handle(new Exception("Robot " + id + " colisionó con Robot" + nextEsquina.getRobot().getId()));
+                    return;
+                }
 
-            case OESTE:
-                pos.setLocation(pos.getX() - 1 , pos.getY());
-                break;
-            case ESTE:
-                pos.setLocation(pos.getX() + 1, pos.getY());
-                break;
+                esquinaAnt.setRobot(null);
+                pos.setLocation(nextPos);
+                nextEsquina.setRobot(robot);
+
+                dispatchMoveListeners(this, pos, posAnt, sentido);
+            }
         }
-        dispatchMoveListeners(this, pos, posAnt, sentido);
         try{
             thread.sleep(1000/Programa.fps);
         }catch (InterruptedException e){
@@ -85,6 +105,10 @@ public class GRobot implements Runnable {
         thread = new Thread(this);
         thread.start();
         dispatchChangeStateListeners(this, "Ejecutandose");
+    }
+
+    public boolean isRunning(){
+        return this.running;
     }
 
 	public int getId() {

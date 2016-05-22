@@ -1,5 +1,7 @@
 package unlp.info.rInfo;
 
+import java.util.Objects;
+
 /**
  * Created by matias on 11/20/15.
  */
@@ -8,6 +10,16 @@ public class Esquina {
     private int papeles = 0;
     private boolean obstaculo = false;
     private boolean blocked = false;
+    private Robot robot;
+    public final Object moveBlock = new Object();
+
+    public void setRobot(Robot robot){
+        this.robot = robot;
+    }
+
+    public Robot getRobot(){
+        return robot;
+    }
 
     public int getFlores() {
         return flores;
