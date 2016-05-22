@@ -128,7 +128,8 @@ public abstract class Robot{
 				Programa.handle(new Exception("Robot " + robot.getId() + " colisionó con Robot" + esquina.getRobot().getId()));
 				return;
 			}
-			robot.setPos(new Point(x, y));
+			robot.setPos(start);
+			esquina.setRobot(this);
 			Programa.registrarRobot(this, robot);
 			robot.boot();
 		}

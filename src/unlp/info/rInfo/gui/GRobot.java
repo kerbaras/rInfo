@@ -60,12 +60,17 @@ public class GRobot implements Runnable {
                     nextPos = new Point((int) pos.getX() + 1, (int) pos.getY());
                     break;
             }
+            if(nextPos.getX() < 0 || nextPos.getX() > 99 || nextPos.getY() < 0 || nextPos.getY() > 99){
+                dispatchChangeStateListeners(this, "Error");
+                Programa.handle(new Exception("Robot " + id + " se fue de la ciudad"));
+                return;
+            }
             Esquina nextEsquina = Programa.getEsquina(nextPos);
-            if(nextEsquina.isBlocked()){
+            /*if(nextEsquina.isBlocked()){
                 dispatchChangeStateListeners(this, "Error");
                 Programa.handle(new Exception("Robot " + id + " trató de moverse a una esquina bloqueada"));
                 return;
-            }
+            }*/
             synchronized (nextEsquina.moveBlock) {
                 if (nextEsquina.getRobot() != null) {
                     dispatchChangeStateListeners(this, "Error");

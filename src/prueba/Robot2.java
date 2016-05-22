@@ -44,13 +44,16 @@ public class Robot2 extends Robot {
                 mover();
                 liberarEsquina(x, y);
                 tomarFlores();
+
                 bloquearEsquina(x1, y1);
                 mover();
                 tomarFlores();
                 derecha();
+
                 mover();
                 liberarEsquina(x1, y1);
                 tomarFlores();
+
                 bloquearEsquina(x2, y2);
                 mover();
 
