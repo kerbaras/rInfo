@@ -36,6 +36,7 @@ public abstract class Robot{
 		Esquina esquina = Programa.getEsquina(robot.getPos());
 		esquina.setFlores(esquina.getFlores() - 1);
 		flores++;
+		robot.dispatchChangeBolsaListeners(flores, papeles);
 		Programa.getWorkspace().getCity().drawResource(robot.getPos());
 		robot.dormir();
 	}
@@ -49,6 +50,7 @@ public abstract class Robot{
 		Esquina esquina = Programa.getEsquina(robot.getPos());
 		esquina.setFlores(esquina.getFlores() + 1);
 		flores--;
+		robot.dispatchChangeBolsaListeners(flores, papeles);
 		Programa.getWorkspace().getCity().drawResource(robot.getPos());
 		robot.dormir();
 	}
@@ -62,6 +64,7 @@ public abstract class Robot{
 		Esquina esquina = Programa.getEsquina(robot.getPos());
 		esquina.setPapeles(esquina.getPapeles() - 1);
 		papeles++;
+		robot.dispatchChangeBolsaListeners(flores, papeles);
 		Programa.getWorkspace().getCity().drawResource(robot.getPos());
 		robot.dormir();
 	}
@@ -75,6 +78,7 @@ public abstract class Robot{
 		Esquina esquina = Programa.getEsquina(robot.getPos());
 		esquina.setPapeles(esquina.getPapeles() + 1);
 		papeles--;
+		robot.dispatchChangeBolsaListeners(flores, papeles);
 		Programa.getWorkspace().getCity().drawResource(robot.getPos());
 		robot.dormir();
 	}
@@ -152,6 +156,7 @@ public abstract class Robot{
 		}
 		this.papeles = papeles;
 		this.flores = flores;
+		robot.dispatchChangeBolsaListeners(flores, papeles);
 	}
 
 	public int getId(){

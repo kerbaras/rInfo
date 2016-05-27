@@ -21,6 +21,7 @@ public class GRobot implements Runnable {
     protected ArrayList<ChangePosListener> changePosListeners = new ArrayList<ChangePosListener>();
     protected ArrayList<MoveListener> moveListeners = new ArrayList<MoveListener>();
     protected ArrayList<ChangeStateListener> changeStateListener = new ArrayList<ChangeStateListener>();
+    protected ArrayList<ChangeBolsaListener> changeBolsaListener = new ArrayList<ChangeBolsaListener>();
     private Thread thread;
     private boolean running = false;
     private Robot robot;
@@ -165,8 +166,12 @@ public class GRobot implements Runnable {
     	changeDirectionListeners.add(listener); 
     }
 
-    public void addChangeStateListener(ChangeStateListener listener) { 
-    	changeStateListener.add(listener); 
+    public void addChangeStateListener(ChangeStateListener listener) {
+        changeStateListener.add(listener);
+    }
+
+    public void addChangeBolsaListener(ChangeBolsaListener listener) {
+        changeBolsaListener.add(listener);
     }
 
     public ArrayList<ChangePosListener> getChangePosListeners(){
@@ -208,6 +213,13 @@ public class GRobot implements Runnable {
                 listener.onStateChange(robot, event);
             }
         }
+    }
+
+    public void dispatchChangeBolsaListeners(int flores, int papeles){
+        if(changeBolsaListener == null)
+            return;
+
+        changeBolsaListener.forEach((ChangeBolsaListener listener)->listener.onBolsaChange(flores, papeles));
     }
 
     public void draw(Graphics g) {

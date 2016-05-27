@@ -99,6 +99,11 @@ public class RobotPane extends JPanel {
         robot.addChangeDirectionListener((GRobot r, ChangeDirectionEvent event) -> robotGraph.repaint());
         
         robot.addChangeStateListener((GRobot r, StateChangeEvent event)->estado.setText(event.getState()));
+
+        robot.addChangeBolsaListener((int flores, int papeles)->{
+            bFlores.setText("" + flores);
+            bPapeles.setText("" + papeles);
+        });
     }
 
     class RobotGraph extends JPanel{
