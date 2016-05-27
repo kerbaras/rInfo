@@ -1,6 +1,8 @@
 package unlp.info.rInfo.gui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
@@ -50,6 +52,7 @@ public class Workspace extends JFrame{
 	
 	private void initComponents(){
 		setContentPane(createContentPane());
+		setJMenuBar(createMenuBar());
 	}
 	
 	private JPanel createContentPane(){
@@ -72,13 +75,27 @@ public class Workspace extends JFrame{
 		minimap = new Minimap(scrollPane.getViewport(), city.getMapBuffer());
 
 		sidebar = new SideBar(minimap);
-		splitPane.setLeftComponent(sidebar);
+		JScrollPane sidepanel = new JScrollPane(sidebar);
+		splitPane.setLeftComponent(sidepanel);
 		splitPane.setDividerLocation(217);
 		splitPane.setEnabled(false);
 
         contentPane.add(splitPane);
 
 		return contentPane;
+	}
+
+	private JMenuBar createMenuBar(){
+		JMenuBar menu = new JMenuBar();
+
+		JMenuItem play = new JMenuItem("Empezar");
+		menu.add(play);
+		play.addActionListener((ActionEvent e)->{
+			this.bootRobots();
+		});
+
+
+		return menu;
 	}
 
 	public void mostrarMensaje(Object mensaje, String titulo, int tipo){
@@ -99,5 +116,11 @@ public class Workspace extends JFrame{
 
 	public Minimap getMinimap() {
 		return minimap;
+	}
+
+	private void bootRobots(){
+		robots.forEach((GRobot robot)->{
+			robot.boot();
+		});
 	}
 }

@@ -131,7 +131,7 @@ public abstract class Robot{
 			robot.setPos(start);
 			esquina.setRobot(this);
 			Programa.registrarRobot(this, robot);
-			robot.boot();
+			//robot.boot();
 		}
 	}
 
