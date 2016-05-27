@@ -2,13 +2,38 @@ package prueba;
 
 import unlp.info.rInfo.*;
 import unlp.info.rInfo.areas.*;
+import unlp.info.rInfo.gui.City;
 
 import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args){
-        main2();
+        main5();
+    }
+
+    public static void main5(){
+        Robot2  r1 = new Robot2(1),
+                r2 = new Robot2(2),
+                r3 = new Robot2(3),
+                r4 = new Robot2(4),
+                r5 = new Robot2(5);
+
+        //Ciudad.setFlores(2, 10, 10);
+        r1.iniciar(0, 12);
+        //r2.iniciar(2, 12);
+        r3.iniciar(4, 12);
+        r4.iniciar(6, 12);
+        try{
+            Object object = new Object();
+            synchronized (object) {
+                object.wait(500);
+                r2.iniciar(2, 12);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //r5.iniciar(8, 12);
     }
 
     public static void main4(){
