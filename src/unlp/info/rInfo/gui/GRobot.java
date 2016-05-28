@@ -79,9 +79,9 @@ public class GRobot implements Runnable {
                     return;
                 }
 
-                esquinaAnt.setRobot(null);
                 pos.setLocation(nextPos);
                 nextEsquina.setRobot(robot);
+                esquinaAnt.setRobot(null);
 
                 dispatchMoveListeners(this, pos, posAnt, sentido);
             }

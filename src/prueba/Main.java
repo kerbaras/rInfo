@@ -9,7 +9,7 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args){
-        main5();
+        main2();
     }
 
     public static void main5(){
